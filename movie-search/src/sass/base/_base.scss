@@ -1,0 +1,25 @@
+@import "../abstract/constants";
+
+button {
+  border: none;
+  color: inherit;
+}
+
+input {
+  border: none;
+  color: inherit;
+  outline: none;
+}
+
+.header {
+  background: $color-header-background;
+  text-align: center;
+}
+
+.header_title {
+  padding: 20px 0;
+}
+
+.header_title__title {
+  color: $color-header-title;
+}

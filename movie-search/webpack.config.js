@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+// const CopyPlugin = require('copy-webpack-plugin');
 
 
 module.exports = {
@@ -42,12 +42,13 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin(
-      { filename: 'src/sass/style.css', disable: false, allChunks: true },
-    ),
-    new CopyPlugin([
-      { from: 'src/audio', to: 'src/audio' },
-      { from: 'src/img', to: 'src/img' },
-    ]),
+      {
+        filename: 'src/sass/style.css', disable: false, allChunks: true
+      }),
+    // new CopyPlugin([
+    //   { from: 'src/audio', to: 'src/audio' },
+    //   { from: 'src/img', to: 'src/img' },
+    // ]),
     new HtmlWebpackPlugin({
       inject: true,
       hash: true,
