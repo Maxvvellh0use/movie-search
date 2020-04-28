@@ -1,7 +1,8 @@
-@import "node_modules/bootstrap/scss/bootstrap";
+@import "./node_modules/bootstrap/scss/bootstrap.scss";
 
 @import "abstract/constants";
 @import "base/base";
 @import "component/search";
 @import "component/button";
 @import "component/swiper";
+@import "component/footer";

@@ -19,16 +19,13 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
-      { test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        loader: 'url-loader?limit=100000'
-      },
       {
-        test: /\.(sass|less|css)$/,
+        test: /\.scss$/,
         use: ExtractTextPlugin.extract(
-          {
-            fallback: 'style-loader',
-            use: ['css-loader', 'sass-loader'],
-          },
+            {
+              fallback: 'style-loader',
+              use: ['css-loader', 'sass-loader'],
+            },
         ),
       },
       // img loader
@@ -43,7 +40,6 @@ module.exports = {
       },
     ],
   },
-
   plugins: [
     new ExtractTextPlugin(
       {

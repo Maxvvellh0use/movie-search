@@ -23,6 +23,17 @@ input {
   outline: none;
 }
 
+a {
+  color: $color-header-title;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+  color: red;
+}
+
+
 .header {
   background: $color-header-background;
   text-align: center;
