@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// const CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 
 module.exports = {
@@ -19,8 +19,11 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
+      { test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader?limit=100000'
+      },
       {
-        test: /\.scss$/,
+        test: /\.(sass|less|css)$/,
         use: ExtractTextPlugin.extract(
           {
             fallback: 'style-loader',
@@ -40,15 +43,16 @@ module.exports = {
       },
     ],
   },
+
   plugins: [
     new ExtractTextPlugin(
       {
         filename: 'src/sass/style.css', disable: false, allChunks: true
       }),
-    // new CopyPlugin([
-    //   { from: 'src/audio', to: 'src/audio' },
-    //   { from: 'src/img', to: 'src/img' },
-    // ]),
+    new CopyPlugin([
+      { from: 'src/assets/audio', to: 'src/audio' },
+      { from: 'src/assets/img', to: 'src/img' },
+    ]),
     new HtmlWebpackPlugin({
       inject: true,
       hash: true,
