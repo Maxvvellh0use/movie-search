@@ -1,12 +1,12 @@
 .swiper-container {
-  width: 80%;
-  height: 100%;
+  width: 80% !important;
+  height: 100% !important;
 }
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  height: 80vh;
-  width: 20vw;
+  height: 80vh !important;
+  width: 20vw !important;
   background: #fff;
   display: -webkit-box;
   display: -ms-flexbox;

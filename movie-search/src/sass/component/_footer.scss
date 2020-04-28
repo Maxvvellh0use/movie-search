@@ -7,3 +7,16 @@
   background: #354655;
 }
 
+.footer__container a {
+  font-size: 23px;
+}
+
+
+.github::before {
+  content: "";
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background-image: url("../assets/img/github.png");
+  background-size: cover;
+}
