@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <title>Movie-search</title>
-    <link rel="shortcut icon" href="src/assets/img/favicon.png" />
-    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+    <link rel="shortcut icon" href="https://img.icons8.com/color/48/000000/cinema-.png" />
 </head>
 <body>
     <header class="header">
@@ -21,8 +19,8 @@
             <div class="search">
                 <div class="container">
                     <div class="search__form">
-                        <form class="form">
-                            <input class="search__input" type="text" placeholder="Search Movie" autofocus>
+                        <form class="form" id="search_form">
+                            <input class="search__input" type="text" value="" placeholder="Search Movie" id="input_search" required autofocus autocomplete="off">
                             <button class="search__button btn btn-secondary">Search</button>
                             <span class="search__clear"></span>
                             <span class="search__keyboard"></span>
@@ -33,21 +31,19 @@
         </section>
         <section class="slider_movies">
             <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">Slide 1</div>
-                    <div class="swiper-slide">Slide 2</div>
-                    <div class="swiper-slide">Slide 3</div>
-                    <div class="swiper-slide">Slide 4</div>
-                    <div class="swiper-slide">Slide 5</div>
-                    <div class="swiper-slide">Slide 6</div>
-                    <div class="swiper-slide">Slide 7</div>
-                    <div class="swiper-slide">Slide 8</div>
-                    <div class="swiper-slide">Slide 9</div>
-                    <div class="swiper-slide">Slide 10</div>
+                <div class="swiper-wrapper" id="swiper_wrapper">
+                    <div class="swiper-slide" data-slide-index="0"></div>
+                    <div class="swiper-slide" data-slide-index="1"></div>
+                    <div class="swiper-slide" data-slide-index="2"></div>
+                    <div class="swiper-slide" data-slide-index="3"></div>
+                    <div class="swiper-slide" data-slide-index="4"></div>
+                    <div class="swiper-slide" data-slide-index="5"></div>
+                    <div class="swiper-slide" data-slide-index="6"></div>
+                    <div class="swiper-slide" data-slide-index="7"></div>
+                    <div class="swiper-slide" data-slide-index="8"></div>
+                    <div class="swiper-slide" data-slide-index="9"></div>
                 </div>
-                <!-- Add Pagination -->
                 <div class="swiper-pagination"></div>
-                <!-- Add Arrows -->
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
             </div>

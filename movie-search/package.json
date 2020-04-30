@@ -9,7 +9,7 @@
     "build": "node_modules/.bin/webpack -w",
     "dev": "node_modules/.bin/webpack -w --mode development",
     "prod": "node_modules/.bin/webpack --mode production",
-    "esw": "node_modules/.bin/esw --watch english-for-kids/src/js",
+    "esw": "node_modules/.bin/esw --watch src/js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "http-server -c-1 -p 8081"
   },
