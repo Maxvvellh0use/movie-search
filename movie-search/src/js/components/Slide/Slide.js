@@ -43,19 +43,6 @@ export default class Slide {
       slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="https://sun9-7.userapi.com/c857732/v857732544/13dbc5/ldsw21Z1SYQ.jpg"></div>`);
       slide.insertAdjacentHTML('beforeend', `<div class="slide__year">1998</div>`);
     });
-
-    // const url = 'https://www.omdbapi.com/?s=dream&page=1&apikey=9b67fc54';
-    //
-    // const res = await fetch(url);
-    // const data = await res.json();
-    // console.log(data.Search[0].Title)
-    // this.slidesTitles.forEach((title) => {
-    //   if (title.dataset.titleIndex === '0') {
-    //     title.innerHTML = data.Search[0].Title;
-    //   }
-    // });
-    // data.Search[0].Title);
-
-    return data;
   }
+
 }
