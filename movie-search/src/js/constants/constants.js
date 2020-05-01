@@ -5,3 +5,7 @@ export const CLEAR_BUTTON = document.getElementById('clear_button');
 
 // swiper:
 export const SWIPER = document.getElementById('swiper_wrapper');
+export const SWIPER_SECTION = document.getElementById('swiper_section');
+
+// error:
+export const ERROR_MESSAGE = document.getElementById('errorMessage');

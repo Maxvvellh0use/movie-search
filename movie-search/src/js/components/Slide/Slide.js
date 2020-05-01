@@ -1,4 +1,6 @@
-import { SWIPER, SEARCH_FORM, INPUT_SEARCH } from '../../constants/constants';
+import {
+  SWIPER, SEARCH_FORM, INPUT_SEARCH, SWIPER_SECTION, ERROR_MESSAGE,
+} from '../../constants/constants';
 
 export default class Slide {
   constructor() {
@@ -17,32 +19,54 @@ export default class Slide {
     });
   }
 
-
-  async getMovies() {
-    const url = `https://www.omdbapi.com/?s=${this.inputValue}&apikey=9b67fc54`;
-    this.preload();
-    const res = await fetch(url);
-    const data = await res.json();
-    // console.log(this.inputValue);
-    // console.log(data.Search[0].Title);
-    this.getTitle(data);
-    // this.slidesTitles.forEach((title) => {
-    //   if (title.dataset.titleIndex === '0') {
-    //     title.innerHTML = data.Search[0].Title;
-    //   }
-    // });
-    // data.Search[0].Title);
+  async toTranslate() {
+    try {
+      const url = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200322T155651Z.de98a60e6a99185e.089aea4237b51c6db082c966f27a7895cd1e8b44&text=${INPUT_SEARCH.value}&lang=ru-en`;
+      const res = await fetch(url);
+      const data = await res.json();
+      console.log(data.text[0]);
+      this.inputValue = data.text[0];
+    } catch (error) {
+      this.isError();
+    }
   }
 
-  async getTitle(data) {
+  async startRequest() {
+    try {
+      const url = `https://www.omdbapi.com/?s=dream&apikey=9b67fc54`;
+      this.preload();
+      const res = await fetch(url);
+      res.catch(() => this.isError('Исчерпан лимит запросов!'));
+      const data = await res.json();
+      this.getContent(data);
+    } catch (error) {
+      this.isError('Исчерпан лимит запросов!');
+    }
+  }
+
+  async getMovies() {
+    try {
+      const urlTranslate = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200322T155651Z.de98a60e6a99185e.089aea4237b51c6db082c966f27a7895cd1e8b44&text=${this.inputValue}&lang=ru-en`;
+      this.preload();
+      const translating = await fetch(urlTranslate);
+      translating.catch(() => this.isError('Исчерпан лимит запросов!'));
+      const translateResult = await translating.json();
+      const urlMovies = `https://www.omdbapi.com/?s=${translateResult.text[0]}&apikey=9b67fc54`;
+      const res = await fetch(urlMovies);
+      res.catch(() => this.isError('Исчерпан лимит запросов!'));
+      const data = await res.json();
+      this.getContent(data);
+    } catch (error) {
+      this.isError('Данные введены некорректно!');
+    }
+  }
+
+  async getContent(data) {
     this.slides.forEach((slide, index) => {
       slide.innerHTML = '';
-      slide.insertAdjacentHTML('afterbegin', `<a class="slide__header">${data.Search[index].Title}</a>`);
-      slide.insertAdjacentHTML('beforeend', `<img class="slide__poster" src="${data.Search[index].Poster}">`);
+      slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" href="#">${data.Search[index].Title}</a></div>`);
+      slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${data.Search[index].Poster}"></div>`);
       slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${data.Search[index].Year}</div>`);
-      // slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" href="#">feefef</a></div>`);
-      // slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="https://sun9-7.userapi.com/c857732/v857732544/13dbc5/ldsw21Z1SYQ.jpg"></div>`);
-      // slide.insertAdjacentHTML('beforeend', `<div class="slide__year">1998</div>`);
     });
   }
 
@@ -53,5 +77,12 @@ export default class Slide {
                                                             <div class="cssload-speeding-wheel"></div>
                                                          </div>`);
     });
+  }
+
+  isError(textError) {
+    SWIPER_SECTION.classList.add('hidden');
+    ERROR_MESSAGE.innerHTML = '';
+    ERROR_MESSAGE.classList.remove('hidden');
+    ERROR_MESSAGE.insertAdjacentHTML('afterbegin', `<h2>Ошибка! ${textError}</h2>`);
   }
 }

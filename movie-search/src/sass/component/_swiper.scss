@@ -1,5 +1,6 @@
 .swiper-container {
   width: 82%;
+  max-width: 1000px;
   height: 100%;
 }
 .swiper-slide {
@@ -21,3 +22,12 @@
   -webkit-align-items: center;
   align-items: center;
 }
+
+.error_message {
+  display: flex;
+  align-items: center;
+  height: 500px;
+  width: 100%;
+  justify-content: center;
+}
+

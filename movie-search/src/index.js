@@ -18,6 +18,7 @@ const mySwiper = new Swiper('.swiper-container', {
 });
 
 const slide = new Slide();
+slide.startRequest();
 slide.toSearch();
 
 const form = new Form();

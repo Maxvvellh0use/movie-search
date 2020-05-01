@@ -3,6 +3,7 @@
 .swiper-slide {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .slide__title {
@@ -14,6 +15,7 @@
 
 .slide__title_link {
   color: black;
+  text-overflow: ellipsis;
 }
 
 .slide__poster {

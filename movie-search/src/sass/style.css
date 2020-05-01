@@ -9920,6 +9920,10 @@ a:hover {
   color: white;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .search__form {
   display: flex;
   justify-content: center;
@@ -9974,6 +9978,7 @@ a:hover {
 
 .swiper-container {
   width: 82%;
+  max-width: 1000px;
   height: 100%;
 }
 
@@ -9995,6 +10000,14 @@ a:hover {
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+}
+
+.error_message {
+  display: flex;
+  align-items: center;
+  height: 500px;
+  width: 100%;
+  justify-content: center;
 }
 
 .footer__container {
@@ -10027,6 +10040,7 @@ a:hover {
 .swiper-slide {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .slide__title {
@@ -10038,6 +10052,7 @@ a:hover {
 
 .slide__title_link {
   color: black;
+  text-overflow: ellipsis;
 }
 
 .slide__poster {
