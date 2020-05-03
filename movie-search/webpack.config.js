@@ -22,10 +22,10 @@ module.exports = {
       {
         test: /\.(scss|css)$/,
         use: ExtractTextPlugin.extract(
-            {
-              fallback: 'style-loader',
-              use: ['css-loader', 'sass-loader'],
-            },
+          {
+            fallback: 'style-loader',
+            use: ['css-loader', 'sass-loader'],
+          },
         ),
       },
       // img loader
@@ -43,10 +43,10 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin(
       {
-        filename: 'src/sass/style.css', disable: false, allChunks: true
-      }),
+        filename: 'src/sass/style.css', disable: false, allChunks: true,
+      },
+    ),
     new CopyPlugin([
-      { from: 'src/assets/audio', to: 'src/audio' },
       { from: 'src/assets/img', to: 'src/img' },
     ]),
     new HtmlWebpackPlugin({

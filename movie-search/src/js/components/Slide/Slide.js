@@ -5,8 +5,10 @@ import {
 export default class Slide {
   constructor() {
     this.slides = SWIPER.querySelectorAll('.swiper-slide');
+    this.notificationTranslation = document.getElementById('notificationTranslation');
     this.slidesTitles = SWIPER.querySelectorAll('.slide__header');
     this.inputValue = '';
+    this.class = Slide;
   }
 
   toSearch() {
@@ -27,37 +29,41 @@ export default class Slide {
       console.log(data.text[0]);
       this.inputValue = data.text[0];
     } catch (error) {
-      this.isError();
+      this.class.isError();
     }
   }
 
   async startRequest() {
     try {
-      const url = `https://www.omdbapi.com/?s=dream&apikey=9b67fc54`;
+      const url = 'https://www.omdbapi.com/?s=dream&apikey=9b67fc54';
       this.preload();
       const res = await fetch(url);
       res.catch(() => this.isError('Исчерпан лимит запросов!'));
       const data = await res.json();
       this.getContent(data);
     } catch (error) {
-      this.isError('Исчерпан лимит запросов!');
+      this.class.isError('Исчерпан лимит запросов!');
     }
   }
 
   async getMovies() {
     try {
+      if (!/(^[А-я0-9\s]+)(?!.*[A-z])$|(^[A-z0-9\s]+)(?!.*[А-я])$/.test(this.inputValue)) {
+        this.isError(`No results for ${this.inputValue}`);
+      }
       const urlTranslate = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200322T155651Z.de98a60e6a99185e.089aea4237b51c6db082c966f27a7895cd1e8b44&text=${this.inputValue}&lang=ru-en`;
       this.preload();
       const translating = await fetch(urlTranslate);
       translating.catch(() => this.isError('Исчерпан лимит запросов!'));
       const translateResult = await translating.json();
+      this.showTranslateNotification(translateResult);
       const urlMovies = `https://www.omdbapi.com/?s=${translateResult.text[0]}&apikey=9b67fc54`;
       const res = await fetch(urlMovies);
       res.catch(() => this.isError('Исчерпан лимит запросов!'));
       const data = await res.json();
       this.getContent(data);
     } catch (error) {
-      this.isError('Данные введены некорректно!');
+      this.class.isError(`No results for ${this.inputValue}`);
     }
   }
 
@@ -79,10 +85,16 @@ export default class Slide {
     });
   }
 
-  isError(textError) {
+  static isError(textError) {
     SWIPER_SECTION.classList.add('hidden');
     ERROR_MESSAGE.innerHTML = '';
     ERROR_MESSAGE.classList.remove('hidden');
     ERROR_MESSAGE.insertAdjacentHTML('afterbegin', `<h2>Ошибка! ${textError}</h2>`);
+  }
+
+  showTranslateNotification(translateResult) {
+    this.notificationTranslation.innerHTML = '';
+    this.notificationTranslation.classList.remove('hidden');
+    this.notificationTranslation.insertAdjacentHTML('afterbegin', `<h5>Showing results for ${translateResult.text[0]}</h5>`);
   }
 }
