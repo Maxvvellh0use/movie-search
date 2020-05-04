@@ -21,59 +21,59 @@ export default class Slide {
     });
   }
 
-  async toTranslate() {
-    try {
-      const url = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200322T155651Z.de98a60e6a99185e.089aea4237b51c6db082c966f27a7895cd1e8b44&text=${INPUT_SEARCH.value}&lang=ru-en`;
-      const res = await fetch(url);
-      const data = await res.json();
-      console.log(data.text[0]);
-      this.inputValue = data.text[0];
-    } catch (error) {
-      this.class.isError();
-    }
-  }
-
   async startRequest() {
-    try {
-      const url = 'https://www.omdbapi.com/?s=dream&apikey=9b67fc54';
-      this.preload();
-      const res = await fetch(url);
-      res.catch(() => this.isError('Исчерпан лимит запросов!'));
-      const data = await res.json();
-      this.getContent(data);
-    } catch (error) {
-      this.class.isError('Исчерпан лимит запросов!');
-    }
+    const url = 'https://www.omdbapi.com/?s=dream&apikey=9b67fc54';
+    this.preload();
+    const startFetch = await fetch(url).catch(() => this.class.isError('Исчерпан лимит запросов!'));
+    const data = await startFetch.json();
+    await this.getContent(data);
   }
 
   async getMovies() {
-    try {
-      if (!/(^[А-я0-9\s]+)(?!.*[A-z])$|(^[A-z0-9\s]+)(?!.*[А-я])$/.test(this.inputValue)) {
-        this.isError(`No results for ${this.inputValue}`);
-      }
-      const urlTranslate = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200322T155651Z.de98a60e6a99185e.089aea4237b51c6db082c966f27a7895cd1e8b44&text=${this.inputValue}&lang=ru-en`;
-      this.preload();
-      const translating = await fetch(urlTranslate);
-      translating.catch(() => this.isError('Исчерпан лимит запросов!'));
-      const translateResult = await translating.json();
-      this.showTranslateNotification(translateResult);
-      const urlMovies = `https://www.omdbapi.com/?s=${translateResult.text[0]}&apikey=9b67fc54`;
-      const res = await fetch(urlMovies);
-      res.catch(() => this.isError('Исчерпан лимит запросов!'));
-      const data = await res.json();
-      this.getContent(data);
-    } catch (error) {
+    let urlMovies = '';
+    if (!/(^[А-я0-9\s]+)(?!.*[A-z])$|(^[A-z0-9\s]+)(?!.*[А-я])$/.test(this.inputValue)) {
       this.class.isError(`No results for ${this.inputValue}`);
     }
+    this.preload();
+    if (!/^[a-z\s]+$/i.test(this.inputValue)) {
+      const translateResult = await this.getTranslate().catch(() => this.class.isError(`No results for ${this.inputValue}`));
+      urlMovies = `https://www.omdbapi.com/?s=${translateResult.text[0]}&apikey=9b67fc54`;
+    } else {
+      this.notificationTranslation.innerHTML = '';
+      urlMovies = `https://www.omdbapi.com/?s=${this.inputValue}&apikey=9b67fc54`;
+    }
+    const res = await fetch(urlMovies).catch(() => this.class.isError(`No results for ${this.inputValue}`));
+    const data = await res.json();
+    await this.getContent(data).catch(() => this.class.isError(`No results for ${this.inputValue}`));
+  }
+
+  // async getRating(imdbID) {
+  //   const urlRating = `https://www.omdbapi.com/?i=${imdbID}&apikey=9b67fc54`;
+  //   const resRating = await fetch(urlRating).catch(() => this.class.isError('Исчерпан лимит запросов!'));
+  //   const rating = await resRating.json();
+  //   return rating.imdbRating;
+  // }
+
+  async getTranslate() {
+    const urlTranslate = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200322T155651Z.de98a60e6a99185e.089aea4237b51c6db082c966f27a7895cd1e8b44&text=${this.inputValue}&lang=ru-en`;
+    const translating = await fetch(urlTranslate).catch(() => this.class.isError('Исчерпан лимит запросов!'));
+    const translateResult = await translating.json();
+    this.showTranslateNotification(translateResult);
+    return translateResult;
   }
 
   async getContent(data) {
-    this.slides.forEach((slide, index) => {
+    async function appendContent(slide, index) {
       slide.innerHTML = '';
+      const urlRating = `https://www.omdbapi.com/?i=${data.Search[index].imdbID}&apikey=9b67fc54`;
+      const resRating = await fetch(urlRating).catch(() => this.class.isError('Исчерпан лимит запросов!'));
+      const rating = await resRating.json();
       slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" href="#">${data.Search[index].Title}</a></div>`);
       slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${data.Search[index].Poster}"></div>`);
       slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${data.Search[index].Year}</div>`);
-    });
+      slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${rating.imdbRating}</div>`);
+    }
+    this.slides.forEach((slide, index) => appendContent(slide, index));
   }
 
   preload() {
@@ -95,6 +95,6 @@ export default class Slide {
   showTranslateNotification(translateResult) {
     this.notificationTranslation.innerHTML = '';
     this.notificationTranslation.classList.remove('hidden');
-    this.notificationTranslation.insertAdjacentHTML('afterbegin', `<h5>Showing results for ${translateResult.text[0]}</h5>`);
+    this.notificationTranslation.insertAdjacentHTML('afterbegin', `<h5>Showing results for &laquo;${translateResult.text[0]}&raquo;:</h5>`);
   }
 }

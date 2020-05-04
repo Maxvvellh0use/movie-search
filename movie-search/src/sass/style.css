@@ -10010,6 +10010,10 @@ a:hover {
   justify-content: center;
 }
 
+.notification_translation {
+  margin-bottom: 20px;
+}
+
 .footer__container {
   margin-top: 20px;
   display: flex;
