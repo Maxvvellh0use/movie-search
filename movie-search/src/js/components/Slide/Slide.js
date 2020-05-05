@@ -1,3 +1,6 @@
+import Swiper from '../Swiper/Swiper';
+import '../../../../node_modules/swiper/css/swiper.css';
+
 import {
   SWIPER, SEARCH_FORM, INPUT_SEARCH, SWIPER_SECTION, ERROR_MESSAGE,
 } from '../../constants/constants';
@@ -6,18 +9,21 @@ export default class Slide {
   constructor() {
     this.slides = SWIPER.querySelectorAll('.swiper-slide');
     this.notificationTranslation = document.getElementById('notificationTranslation');
-    this.slidesTitles = SWIPER.querySelectorAll('.slide__header');
-    this.inputValue = '';
+    this.inputValue = 'dream';
     this.class = Slide;
+    this.pageIndex = 1;
   }
 
   toSearch() {
     INPUT_SEARCH.addEventListener('change', () => {
       this.inputValue = INPUT_SEARCH.value;
     });
-    SEARCH_FORM.addEventListener('submit', (event) => {
+    SEARCH_FORM.addEventListener('submit', async (event) => {
+      this.slides.forEach((slide) => {
+        slide.innerHTML = '';
+      });
       event.preventDefault();
-      this.getMovies();
+      await this.getMovies();
     });
   }
 
@@ -26,6 +32,8 @@ export default class Slide {
     this.preload();
     const startFetch = await fetch(url).catch(() => this.class.isError('Исчерпан лимит запросов!'));
     const data = await startFetch.json();
+    this.createPage();
+    Swiper.update();
     await this.getContent(data);
   }
 
@@ -37,10 +45,10 @@ export default class Slide {
     this.preload();
     if (!/^[a-z\s]+$/i.test(this.inputValue)) {
       const translateResult = await this.getTranslate().catch(() => this.class.isError(`No results for ${this.inputValue}`));
-      urlMovies = `https://www.omdbapi.com/?s=${translateResult.text[0]}&apikey=9b67fc54`;
+      urlMovies = `https://www.omdbapi.com/?s=${translateResult.text[0]}&page=${this.pageIndex}&apikey=9b67fc54`;
     } else {
       this.notificationTranslation.innerHTML = '';
-      urlMovies = `https://www.omdbapi.com/?s=${this.inputValue}&apikey=9b67fc54`;
+      urlMovies = `https://www.omdbapi.com/?s=${this.inputValue}&page=${this.pageIndex}&apikey=9b67fc54`;
     }
     const res = await fetch(urlMovies).catch(() => this.class.isError(`No results for ${this.inputValue}`));
     const data = await res.json();
@@ -63,17 +71,20 @@ export default class Slide {
   }
 
   async getContent(data) {
-    async function appendContent(slide, index) {
+    console.log(this.pageIndex);
+    const slidesPage = SWIPER.querySelectorAll(`div[data-page-index='${this.pageIndex}']`);
+    async function appendContent(slide) {
       slide.innerHTML = '';
-      const urlRating = `https://www.omdbapi.com/?i=${data.Search[index].imdbID}&apikey=9b67fc54`;
+      const { slideIndex } = slide.dataset;
+      const urlRating = `https://www.omdbapi.com/?i=${data.Search[slideIndex].imdbID}&apikey=9b67fc54`;
       const resRating = await fetch(urlRating).catch(() => this.class.isError('Исчерпан лимит запросов!'));
       const rating = await resRating.json();
-      slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" href="#">${data.Search[index].Title}</a></div>`);
-      slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${data.Search[index].Poster}"></div>`);
-      slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${data.Search[index].Year}</div>`);
-      slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${rating.imdbRating}</div>`);
+      slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" href="https://www.imdb.com/title/${data.Search[slideIndex].imdbID}/videogallery/?ref_=tt_pv_vi_sm">${data.Search[slideIndex].Title}</a></div>`);
+      slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${data.Search[slideIndex].Poster}"></div>`);
+      slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${data.Search[slideIndex].Year}</div>`);
+      slide.insertAdjacentHTML('beforeend', `<div class="slide__rating">${rating.imdbRating}</div>`);
     }
-    this.slides.forEach((slide, index) => appendContent(slide, index));
+    slidesPage.forEach((slide) => appendContent(slide));
   }
 
   preload() {
@@ -96,5 +107,31 @@ export default class Slide {
     this.notificationTranslation.innerHTML = '';
     this.notificationTranslation.classList.remove('hidden');
     this.notificationTranslation.insertAdjacentHTML('afterbegin', `<h5>Showing results for &laquo;${translateResult.text[0]}&raquo;:</h5>`);
+  }
+
+
+  getNextPage() {
+    Swiper.on('reachEnd', async () => {
+      this.pageIndex += 1;
+      await this.createPage();
+      await this.getMovies();
+      Swiper.update();
+    });
+  }
+
+
+  createPage() {
+    console.log('new page!');
+    SWIPER.insertAdjacentHTML('beforeend', `
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="0"></div>
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="1"></div>
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="2"></div>
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="3"></div>
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="4"></div>
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="5"></div>
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="6"></div>
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="7"></div>
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="8"></div>
+                    <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="9"></div>`);
   }
 }

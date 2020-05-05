@@ -32,8 +32,19 @@
 .slide__year {
   height: 100%;
   width: 100%;
-  margin-bottom: 30px;
-  color: black;
+  max-height: 20px;
+  margin-bottom: 20px;
 }
 
-
+.slide__rating {
+  height: 100%;
+  width: 100%;
+  max-width: 110px;
+  max-height: 20px;
+  margin-bottom: 45px;
+  background-image: url(../assets/img/imdb.png);
+  background-repeat: no-repeat;
+  background-size: 31px;
+  background-position: 32% 36%;
+  padding-left: 40px;
+}
