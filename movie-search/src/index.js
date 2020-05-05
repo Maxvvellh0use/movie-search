@@ -4,11 +4,11 @@ import '../node_modules/swiper/css/swiper.css';
 import Slide from './js/components/Slide/Slide';
 import Form from './js/components/Form/Form';
 
-
-
 const slide = new Slide();
-slide.startRequest();
-slide.toSearch();
-slide.getNextPage();
+window.addEventListener('load', () => {
+  slide.startRequest();
+  slide.toSearch();
+  slide.getNextPage();
+});
 
 Form.clearForm();

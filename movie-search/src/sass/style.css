@@ -9915,6 +9915,17 @@ a:hover {
 .header_title {
   padding: 20px 0;
 }
+@media (max-width: 767px) {
+  .header_title {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 767px) {
+  .header_title h1 {
+    font-size: 27px;
+  }
+}
 
 .header_title__title {
   color: white;
@@ -9953,6 +9964,11 @@ a:hover {
     width: 350px;
   }
 }
+@media (max-width: 467px) {
+  .search__input {
+    width: 200px;
+  }
+}
 
 .search__input:focus {
   border: 1px solid #73B5FF;
@@ -9978,8 +9994,23 @@ a:hover {
 
 .swiper-container {
   width: 82%;
-  max-width: 1000px;
+  max-width: 1300px;
   height: 100%;
+}
+@media (max-width: 1200px) {
+  .swiper-container {
+    max-width: 840px;
+  }
+}
+@media (max-width: 945px) {
+  .swiper-container {
+    max-width: 550px;
+  }
+}
+@media (max-width: 640px) {
+  .swiper-container {
+    max-width: 270px;
+  }
 }
 
 .swiper-slide {
@@ -10014,6 +10045,18 @@ a:hover {
   margin-bottom: 20px;
 }
 
+@media (max-width: 767px) {
+  .swiper-container .swiper-button-prev {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .swiper-container .swiper-button-next {
+    display: none;
+  }
+}
+
 .footer__container {
   margin-top: 20px;
   display: flex;
@@ -10026,10 +10069,20 @@ a:hover {
 .footer__container a {
   font-size: 23px;
 }
+@media (max-width: 767px) {
+  .footer__container a {
+    font-size: 14px;
+  }
+}
 
 .footer__container a:hover {
   font-size: 23px;
   color: #DDDDAC;
+}
+@media (max-width: 767px) {
+  .footer__container a:hover {
+    font-size: 14px;
+  }
 }
 
 .github::before {
@@ -10037,8 +10090,14 @@ a:hover {
   position: absolute;
   width: 33px;
   height: 32px;
+  background-repeat: no-repeat;
   background-image: url(../assets/img/github.png);
   background-size: cover;
+}
+@media (max-width: 767px) {
+  .github::before {
+    background-size: 20px;
+  }
 }
 
 .swiper-slide {
@@ -10088,6 +10147,13 @@ a:hover {
   background-size: 31px;
   background-position: 32% 36%;
   padding-left: 40px;
+}
+
+.swiper-wrapper .cssload_main-page {
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cssload-container {

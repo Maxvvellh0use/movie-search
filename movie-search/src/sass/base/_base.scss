@@ -40,6 +40,15 @@ a:hover {
 
 .header_title {
   padding: 20px 0;
+  @media (max-width: 767px) {
+    font-size: 10px;
+  }
+}
+
+.header_title h1 {
+  @media (max-width: 767px) {
+    font-size: 27px;
+  }
 }
 
 .header_title__title {

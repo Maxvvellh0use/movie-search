@@ -9,3 +9,8 @@ export const SWIPER_SECTION = document.getElementById('swiper_section');
 
 // error:
 export const ERROR_MESSAGE = document.getElementById('errorMessage');
+
+// loader:
+export const CSS_LOADER = document.getElementById('cssload_main-page');
+
+export const startRequest = 'dream';
