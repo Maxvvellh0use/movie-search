@@ -33,7 +33,7 @@ export default class Slide {
       this.searchPreloadCss.classList.remove('hidden');
       await this.createPage();
       await this.getMovies();
-      this.getMoreMovieInformation();
+      // this.getMoreMovieInformation();
       this.searchPreloadCss.classList.add('hidden');
     });
   }
@@ -124,6 +124,7 @@ export default class Slide {
       this.pageIndex += 1;
       await this.createPage();
       await this.getMovies();
+      this.getMoreMovieInformation();
       Swiper.update();
     });
   }
@@ -146,18 +147,33 @@ export default class Slide {
   getMoreMovieInformation() {
     const slidesPage = SWIPER.querySelectorAll(`div[data-page-index='${this.pageIndex}']`);
     slidesPage.forEach((slide) => slide.addEventListener('click', async () => {
+      console.log('click');
       const titleMovie = slide.firstElementChild.textContent;
       MORE_INFORMATION_POPUP.classList.remove('hidden');
       MORE_INFORMATION_POPUP.innerHTML = '';
+      this.class.createPreloadDescription();
       BLACKOUT.classList.remove('hidden');
       BLACKOUT.addEventListener('click', () => {
         BLACKOUT.classList.add('hidden');
         MORE_INFORMATION_POPUP.classList.add('hidden');
       });
-      const urlMovie = `http://www.omdbapi.com/?t=${titleMovie}&plot=full&apikey=7185f30c`;
+      const urlMovie = `https://www.omdbapi.com/?t=${titleMovie}&plot=full&apikey=7185f30c`;
       const res = await fetch(urlMovie).catch(() => this.class.isError(`No results for ${this.inputValue}`));
       const data = await res.json();
-      MORE_INFORMATION_POPUP.insertAdjacentHTML('afterbegin', `<div class="movie-decription"><span class="movie-decription__titles">Title</span>: ${data.Title}</div>
+      const descriptionPreloadCss = document.getElementById('description_preload');
+      descriptionPreloadCss.classList.add('hidden');
+      this.class.createMoreInformationPopup(data);
+    }));
+  }
+
+  static createPreloadDescription() {
+    MORE_INFORMATION_POPUP.insertAdjacentHTML('afterbegin', `<div class="description_preload-wrapper">
+                <div class="lds-ring description_preload" id="description_preload"><div></div><div></div><div></div><div></div></div>
+                </div>`);
+  }
+
+  static createMoreInformationPopup(data) {
+    MORE_INFORMATION_POPUP.insertAdjacentHTML('afterbegin', `<div class="movie-decription"><span class="movie-decription__titles">Title</span>: ${data.Title}</div>
                                                                           <div class="movie-decription"><span class="movie-decription__titles">Year</span>: ${data.Year}</div>
                                                                           <div class="movie-decription"><span class="movie-decription__titles">Rated</span>: ${data.Rated}</div>
                                                                           <div class="movie-decription"><span class="movie-decription__titles">Runtime</span>: ${data.Runtime}</div>
@@ -166,6 +182,5 @@ export default class Slide {
                                                                           <div class="movie-decription"><span class="movie-decription__titles">Actors</span>: ${data.Actors}</div>
                                                                           <div class="movie-decription"><span class="movie-decription__titles">Country</span>: ${data.Country}</div>
                                                                           <div class="movie-decription"><span class="movie-decription__titles">Awards</span>: ${data.Awards}</div>`);
-    }));
   }
 }
