@@ -1,0 +1,44 @@
+@import "../abstract/constants";
+
+.more_information {
+  position: absolute;
+  bottom: 20%;
+  left: 30%;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  background: $color-swiper-background;
+  width: 100vw;
+  height: 100vh;
+  max-height: 400px;
+  max-width: 500px;
+  margin: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.more_information a {
+  color: black;
+}
+
+.more_information a:hover {
+  color: $color-link;
+}
+
+.movie-decription {
+  margin: 10px;
+}
+
+.popup_blackout {
+  position: fixed;
+  z-index: 15;
+  width: 100vw;
+  height: 100vh;
+  background: $color-blackout;
+  opacity: .4;
+}
+
+.movie-decription__titles {
+  color: $color-movie-decription;
+}
+

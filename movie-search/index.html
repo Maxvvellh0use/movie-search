@@ -7,6 +7,8 @@
     <link rel="shortcut icon" href="https://img.icons8.com/color/48/000000/cinema-.png" />
 </head>
 <body>
+<div class="popup_blackout hidden" id="popup_blackout">
+</div>
     <header class="header">
         <div class="container align-items-center">
             <div class="header_title">
@@ -24,6 +26,7 @@
                             <button class="search__button btn btn-secondary">Search</button>
                             <span class="search__clear" id="clear_button"></span>
                             <span class="search__keyboard"></span>
+                            <div class="lds-ring hidden" id="search_preload"><div></div><div></div><div></div><div></div></div>
                         </form>
                     </div>
                 </div>
@@ -42,6 +45,7 @@
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
         </section>
+        <div class="more_information hidden" id="more_information"></div>
         <div class="error_message hidden" id="errorMessage"></div>
     </main>
 

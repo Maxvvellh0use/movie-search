@@ -5,10 +5,11 @@ import Slide from './js/components/Slide/Slide';
 import Form from './js/components/Form/Form';
 
 const slide = new Slide();
-window.addEventListener('load', () => {
-  slide.startRequest();
+window.addEventListener('load', async () => {
+  await slide.startRequest();
   slide.toSearch();
   slide.getNextPage();
+  slide.getMoreMovieInformation();
 });
 
 Form.clearForm();

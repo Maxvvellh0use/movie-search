@@ -10099,7 +10099,7 @@ a:hover {
 
 .footer__container a:hover {
   font-size: 23px;
-  color: #DDDDAC;
+  color: #73B5FF;
 }
 @media (max-width: 767px) {
   .footer__container a:hover {
@@ -10123,9 +10123,16 @@ a:hover {
 }
 
 .swiper-slide {
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.swiper-slide:hover {
+  cursor: pointer;
+  transform: scale(0.97);
+  transition: all ease-in-out 0.3s;
 }
 
 .slide__title {
@@ -10171,6 +10178,47 @@ a:hover {
   padding-left: 40px;
 }
 
+.lds-ring {
+  margin-top: 3px;
+  display: inline-block;
+  position: relative;
+  width: 23px;
+  height: 23px;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  margin: 2px;
+  border: 2px solid #6CF;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #6CF transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .swiper-wrapper .cssload_main-page {
   height: 500px;
   display: flex;
@@ -10228,6 +10276,47 @@ a:hover {
     -moz-transform: rotate(360deg);
     transform: rotate(360deg);
   }
+}
+.more_information {
+  position: absolute;
+  bottom: 20%;
+  left: 30%;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  width: 100vw;
+  height: 100vh;
+  max-height: 400px;
+  max-width: 500px;
+  margin: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.more_information a {
+  color: black;
+}
+
+.more_information a:hover {
+  color: #73B5FF;
+}
+
+.movie-decription {
+  margin: 10px;
+}
+
+.popup_blackout {
+  position: fixed;
+  z-index: 15;
+  width: 100vw;
+  height: 100vh;
+  background: #2D303A;
+  opacity: 0.4;
+}
+
+.movie-decription__titles {
+  color: #f60;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,9 +1,16 @@
 @import "../abstract/constants";
 
 .swiper-slide {
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+.swiper-slide:hover {
+  cursor: pointer;
+  transform: scale(.97);
+  transition: all ease-in-out .3s;
 }
 
 .slide__title {

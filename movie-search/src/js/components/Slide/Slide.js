@@ -2,13 +2,15 @@ import Swiper from '../Swiper/Swiper';
 import '../../../../node_modules/swiper/css/swiper.css';
 
 import {
-  SWIPER, SEARCH_FORM, INPUT_SEARCH, SWIPER_SECTION, ERROR_MESSAGE, startRequest, CSS_LOADER,
+  SWIPER, SEARCH_FORM, INPUT_SEARCH, SWIPER_SECTION, ERROR_MESSAGE, startRequest, MORE_INFORMATION_POPUP, BLACKOUT
 } from '../../constants/constants';
 
 export default class Slide {
   constructor() {
     this.slides = SWIPER.querySelectorAll('.swiper-slide');
     this.notificationTranslation = document.getElementById('notificationTranslation');
+    this.mainPagePreloadCss = document.getElementById('cssload_main-page');
+    this.searchPreloadCss = document.getElementById('search_preload');
     this.class = Slide;
     this.inputValue = startRequest;
     this.pageIndex = 1;
@@ -19,11 +21,20 @@ export default class Slide {
       this.inputValue = INPUT_SEARCH.value;
     });
     SEARCH_FORM.addEventListener('submit', async (event) => {
-      this.slides.forEach((slide) => {
+      SWIPER.innerHTML = '';
+      SWIPER_SECTION.classList.remove('hidden');
+      ERROR_MESSAGE.classList.add('hidden');
+      this.mainPagePreloadCss.classList.remove('hidden');
+      Swiper.update();
+      SWIPER.querySelectorAll('.swiper-slide').forEach((slide) => {
         slide.innerHTML = '';
       });
       event.preventDefault();
+      this.searchPreloadCss.classList.remove('hidden');
+      await this.createPage();
       await this.getMovies();
+      this.getMoreMovieInformation();
+      this.searchPreloadCss.classList.add('hidden');
     });
   }
 
@@ -31,7 +42,7 @@ export default class Slide {
     const url = `https://www.omdbapi.com/?s=${startRequest}&page=${this.pageIndex}&apikey=7185f30c`;
     const startFetch = await fetch(url).catch(() => this.class.isError('Исчерпан лимит запросов!'));
     const data = await startFetch.json();
-    CSS_LOADER.classList.add('hidden');
+    this.mainPagePreloadCss.classList.add('hidden');
     this.createPage();
     Swiper.update();
     await this.getContent(data);
@@ -85,20 +96,13 @@ export default class Slide {
     slidesPage.forEach((slide) => appendContent(slide).catch(() => this.class.isError(`No results for ${this.inputValue}`)));
   }
 
-  static createSlides(slide, posterMovie,titleMovie, yearMovie, videogalleryMovie, rating) {
-
+  static createSlides(slide, posterMovie, titleMovie, yearMovie, videogalleryMovie, rating) {
+    const posterErrorMessage = 'Сервис с этой фотографией временно недоступен';
     slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" href="https://www.imdb.com/title/${videogalleryMovie}/videogallery/?ref_=tt_pv_vi_sm">${titleMovie}</a></div>`);
-    slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${posterMovie}" alt="no"></div>`);
+    slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${posterMovie}" alt="${posterErrorMessage}"></div>`);
     slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${yearMovie}</div>`);
     slide.insertAdjacentHTML('beforeend', `<div class="slide__rating">${rating.imdbRating}</div>`);
   }
-
-  // static preload(slide) {
-  //   slide.innerHTML = '';
-  //   slide.insertAdjacentHTML('afterbegin', `<div class="cssload-container">
-  //                                                           <div class="cssload-speeding-wheel"></div>
-  //                                                        </div>`);
-  // }
 
   static isError(textError) {
     SWIPER_SECTION.classList.add('hidden');
@@ -139,7 +143,29 @@ export default class Slide {
                     <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="9"></div>`);
   }
 
-  static createAltPoster(posterMovie) {
-    posterMovie = 'https://sun9-64.userapi.com/c849032/v849032390/18a94b/B9WltbgKl7g.jpg';
+  getMoreMovieInformation() {
+    const slidesPage = SWIPER.querySelectorAll(`div[data-page-index='${this.pageIndex}']`);
+    slidesPage.forEach((slide) => slide.addEventListener('click', async () => {
+      const titleMovie = slide.firstElementChild.textContent;
+      MORE_INFORMATION_POPUP.classList.remove('hidden');
+      MORE_INFORMATION_POPUP.innerHTML = '';
+      BLACKOUT.classList.remove('hidden');
+      BLACKOUT.addEventListener('click', () => {
+        BLACKOUT.classList.add('hidden');
+        MORE_INFORMATION_POPUP.classList.add('hidden');
+      });
+      const urlMovie = `http://www.omdbapi.com/?t=${titleMovie}&plot=full&apikey=7185f30c`;
+      const res = await fetch(urlMovie).catch(() => this.class.isError(`No results for ${this.inputValue}`));
+      const data = await res.json();
+      MORE_INFORMATION_POPUP.insertAdjacentHTML('afterbegin', `<div class="movie-decription"><span class="movie-decription__titles">Title</span>: ${data.Title}</div>
+                                                                          <div class="movie-decription"><span class="movie-decription__titles">Year</span>: ${data.Year}</div>
+                                                                          <div class="movie-decription"><span class="movie-decription__titles">Rated</span>: ${data.Rated}</div>
+                                                                          <div class="movie-decription"><span class="movie-decription__titles">Runtime</span>: ${data.Runtime}</div>
+                                                                          <div class="movie-decription"><span class="movie-decription__titles">Genre</span>: ${data.Genre}</div>
+                                                                          <div class="movie-decription"><span class="movie-decription__titles">Director</span>: ${data.Director}</div>
+                                                                          <div class="movie-decription"><span class="movie-decription__titles">Actors</span>: ${data.Actors}</div>
+                                                                          <div class="movie-decription"><span class="movie-decription__titles">Country</span>: ${data.Country}</div>
+                                                                          <div class="movie-decription"><span class="movie-decription__titles">Awards</span>: ${data.Awards}</div>`);
+    }));
   }
 }

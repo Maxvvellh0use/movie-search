@@ -13,4 +13,9 @@ export const ERROR_MESSAGE = document.getElementById('errorMessage');
 // loader:
 export const CSS_LOADER = document.getElementById('cssload_main-page');
 
+// more information popup:
+export const MORE_INFORMATION_POPUP = document.getElementById('more_information');
+export const BLACKOUT = document.getElementById('popup_blackout');
+
+
 export const startRequest = 'dream';
