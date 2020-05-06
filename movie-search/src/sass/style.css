@@ -9994,7 +9994,7 @@ a:hover {
 
 .swiper-container {
   width: 82%;
-  max-width: 1300px;
+  max-width: 1200px;
   height: 100%;
 }
 @media (max-width: 1200px) {
@@ -10002,7 +10002,7 @@ a:hover {
     max-width: 840px;
   }
 }
-@media (max-width: 945px) {
+@media (max-width: 966px) {
   .swiper-container {
     max-width: 550px;
   }
@@ -10043,18 +10043,40 @@ a:hover {
 
 .notification_translation {
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
+.title_results {
+  width: 300px;
+}
+
+.slider_movies .swiper-button-prev {
+  margin-top: 10vh;
+  margin-left: 120px;
+}
 @media (max-width: 767px) {
-  .swiper-container .swiper-button-prev {
+  .slider_movies .swiper-button-prev {
     display: none;
   }
 }
 
+.slider_movies .swiper-button-next {
+  margin-top: 10vh;
+  margin-right: 120px;
+}
 @media (max-width: 767px) {
-  .swiper-container .swiper-button-next {
+  .slider_movies .swiper-button-next {
     display: none;
   }
+}
+
+.slider_movies .swiper-button-next:focus {
+  outline: none;
+}
+
+.slider_movies .swiper-button-prev:focus {
+  outline: none;
 }
 
 .footer__container {

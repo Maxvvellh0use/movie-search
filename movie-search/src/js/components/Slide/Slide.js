@@ -28,7 +28,7 @@ export default class Slide {
   }
 
   async startRequest() {
-    const url = 'https://www.omdbapi.com/?s=dream&apikey=9b67fc54';
+    const url = `https://www.omdbapi.com/?s=${startRequest}&page=${this.pageIndex}&apikey=7185f30c`;
     const startFetch = await fetch(url).catch(() => this.class.isError('Исчерпан лимит запросов!'));
     const data = await startFetch.json();
     CSS_LOADER.classList.add('hidden');
@@ -44,10 +44,10 @@ export default class Slide {
     }
     if (!/^[a-z\s]+$/i.test(this.inputValue)) {
       const translateResult = await this.getTranslate().catch(() => this.class.isError(`No results for ${this.inputValue}`));
-      urlMovies = `https://www.omdbapi.com/?s=${translateResult.text[0]}&page=${this.pageIndex}&apikey=9b67fc54`;
+      urlMovies = `https://www.omdbapi.com/?s=${translateResult.text[0]}&page=${this.pageIndex}&apikey=7185f30c`;
     } else {
       this.notificationTranslation.innerHTML = '';
-      urlMovies = `https://www.omdbapi.com/?s=${this.inputValue}&page=${this.pageIndex}&apikey=9b67fc54`;
+      urlMovies = `https://www.omdbapi.com/?s=${this.inputValue}&page=${this.pageIndex}&apikey=7185f30c`;
     }
     const res = await fetch(urlMovies).catch(() => this.class.isError(`No results for ${this.inputValue}`));
     const data = await res.json();
@@ -70,17 +70,27 @@ export default class Slide {
                                                             <div class="cssload-speeding-wheel"></div>
                                                          </div>`);
       const { slideIndex } = slide.dataset;
-      const urlRating = `https://www.omdbapi.com/?i=${data.Search[slideIndex].imdbID}&apikey=9b67fc54`;
+      const urlRating = `https://www.omdbapi.com/?i=${data.Search[slideIndex].imdbID}&apikey=7185f30c`;
       const resRating = await fetch(urlRating).catch(() => this.class.isError('Исчерпан лимит запросов!'));
       const rating = await resRating.json();
       slide.innerHTML = '';
-      slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" href="https://www.imdb.com/title/${data.Search[slideIndex].imdbID}/videogallery/?ref_=tt_pv_vi_sm">${data.Search[slideIndex].Title}</a></div>`);
-      slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${data.Search[slideIndex].Poster}"></div>`);
-      slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${data.Search[slideIndex].Year}</div>`);
-      slide.insertAdjacentHTML('beforeend', `<div class="slide__rating">${rating.imdbRating}</div>`);
+      const posterMovie = data.Search[slideIndex].Poster;
+      const titleMovie = data.Search[slideIndex].Title;
+      const yearMovie = data.Search[slideIndex].Year;
+      const videogalleryMovie = data.Search[slideIndex].imdbID;
+      // await posterMovie.catch(() => Slide.createAltPoster(posterMovie));
+      Slide.createSlides(slide, posterMovie, titleMovie, yearMovie, videogalleryMovie, rating);
     }
-    await appendContent().catch(() => this.class.isError('Превышен лимит запросов!'));
-    slidesPage.forEach((slide) => appendContent(slide).catch(() => this.class.isError('Превышен лимит запросов!')));
+    // await appendContent().catch(() => this.class.isError('Превышен лимит запросов!'));
+    slidesPage.forEach((slide) => appendContent(slide).catch(() => this.class.isError(`No results for ${this.inputValue}`)));
+  }
+
+  static createSlides(slide, posterMovie,titleMovie, yearMovie, videogalleryMovie, rating) {
+
+    slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" href="https://www.imdb.com/title/${videogalleryMovie}/videogallery/?ref_=tt_pv_vi_sm">${titleMovie}</a></div>`);
+    slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${posterMovie}" alt="no"></div>`);
+    slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${yearMovie}</div>`);
+    slide.insertAdjacentHTML('beforeend', `<div class="slide__rating">${rating.imdbRating}</div>`);
   }
 
   // static preload(slide) {
@@ -95,12 +105,13 @@ export default class Slide {
     ERROR_MESSAGE.innerHTML = '';
     ERROR_MESSAGE.classList.remove('hidden');
     ERROR_MESSAGE.insertAdjacentHTML('afterbegin', `<h2>Ошибка! ${textError}</h2>`);
+    // setTimeout(() => window.location.reload(), 1000);
   }
 
   showTranslateNotification(translateResult) {
     this.notificationTranslation.innerHTML = '';
     this.notificationTranslation.classList.remove('hidden');
-    this.notificationTranslation.insertAdjacentHTML('afterbegin', `<h5>Showing results for &laquo;${translateResult.text[0]}&raquo;:</h5>`);
+    this.notificationTranslation.insertAdjacentHTML('afterbegin', `<h5 class="title_results">Showing results for &laquo;${translateResult.text[0]}&raquo;:</h5>`);
   }
 
 
@@ -126,5 +137,9 @@ export default class Slide {
                     <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="7"></div>
                     <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="8"></div>
                     <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="9"></div>`);
+  }
+
+  static createAltPoster(posterMovie) {
+    posterMovie = 'https://sun9-64.userapi.com/c849032/v849032390/18a94b/B9WltbgKl7g.jpg';
   }
 }

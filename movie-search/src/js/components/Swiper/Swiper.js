@@ -6,6 +6,8 @@ export default new Swiper('.swiper-container', {
   pagination: {
     el: '.swiper-pagination',
     clickable: true,
+    dynamicBullets: true,
+    dynamicMainBullets: 15,
   },
   navigation: {
     nextEl: '.swiper-button-next',
