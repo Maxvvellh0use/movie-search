@@ -10341,6 +10341,13 @@ a:hover {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+@media (max-width: 767px) {
+  .more_information {
+    max-height: 400px;
+    max-width: 300px;
+    left: 10vw;
+  }
+}
 
 .more_information a {
   color: black;
@@ -10350,8 +10357,12 @@ a:hover {
   color: #73B5FF;
 }
 
-.movie-decription {
+.movie-description {
   margin: 10px;
+}
+
+.title_movie-description {
+  margin-top: -30px;
 }
 
 .popup_blackout {
@@ -10363,8 +10374,13 @@ a:hover {
   opacity: 0.4;
 }
 
-.movie-decription__titles {
+.movie-description__titles {
   color: #f60;
+}
+
+.close_popup {
+  position: relative;
+  margin-left: 455px;
 }
 
 /*# sourceMappingURL=style.css.map */

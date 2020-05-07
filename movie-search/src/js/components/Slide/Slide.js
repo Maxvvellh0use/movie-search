@@ -18,12 +18,11 @@ export default class Slide {
 
   toSearch() {
     INPUT_SEARCH.addEventListener('change', () => {
-      this.inputValue = INPUT_SEARCH.value;
+      this.inputValue = INPUT_SEARCH.value.trim();
     });
     SEARCH_FORM.addEventListener('submit', async (event) => {
       SWIPER.innerHTML = '';
       SWIPER_SECTION.classList.remove('hidden');
-      ERROR_MESSAGE.classList.add('hidden');
       this.mainPagePreloadCss.classList.remove('hidden');
       Swiper.update();
       SWIPER.querySelectorAll('.swiper-slide').forEach((slide) => {
@@ -147,15 +146,13 @@ export default class Slide {
   getMoreMovieInformation() {
     const slidesPage = SWIPER.querySelectorAll(`div[data-page-index='${this.pageIndex}']`);
     slidesPage.forEach((slide) => slide.addEventListener('click', async () => {
-      console.log('click');
       const titleMovie = slide.firstElementChild.textContent;
       MORE_INFORMATION_POPUP.classList.remove('hidden');
       MORE_INFORMATION_POPUP.innerHTML = '';
-      this.class.createPreloadDescription();
+      this.class.createPreloadDescriptionMovie();
       BLACKOUT.classList.remove('hidden');
       BLACKOUT.addEventListener('click', () => {
-        BLACKOUT.classList.add('hidden');
-        MORE_INFORMATION_POPUP.classList.add('hidden');
+        this.class.closeMoreInformationPopup();
       });
       const urlMovie = `https://www.omdbapi.com/?t=${titleMovie}&plot=full&apikey=7185f30c`;
       const res = await fetch(urlMovie).catch(() => this.class.isError(`No results for ${this.inputValue}`));
@@ -163,24 +160,32 @@ export default class Slide {
       const descriptionPreloadCss = document.getElementById('description_preload');
       descriptionPreloadCss.classList.add('hidden');
       this.class.createMoreInformationPopup(data);
+      const closeMovieInformation = document.getElementById('close_movie_information');
+      closeMovieInformation.addEventListener('click', this.class.closeMoreInformationPopup);
     }));
   }
 
-  static createPreloadDescription() {
+  static createPreloadDescriptionMovie() {
     MORE_INFORMATION_POPUP.insertAdjacentHTML('afterbegin', `<div class="description_preload-wrapper">
                 <div class="lds-ring description_preload" id="description_preload"><div></div><div></div><div></div><div></div></div>
                 </div>`);
   }
 
   static createMoreInformationPopup(data) {
-    MORE_INFORMATION_POPUP.insertAdjacentHTML('afterbegin', `<div class="movie-decription"><span class="movie-decription__titles">Title</span>: ${data.Title}</div>
-                                                                          <div class="movie-decription"><span class="movie-decription__titles">Year</span>: ${data.Year}</div>
-                                                                          <div class="movie-decription"><span class="movie-decription__titles">Rated</span>: ${data.Rated}</div>
-                                                                          <div class="movie-decription"><span class="movie-decription__titles">Runtime</span>: ${data.Runtime}</div>
-                                                                          <div class="movie-decription"><span class="movie-decription__titles">Genre</span>: ${data.Genre}</div>
-                                                                          <div class="movie-decription"><span class="movie-decription__titles">Director</span>: ${data.Director}</div>
-                                                                          <div class="movie-decription"><span class="movie-decription__titles">Actors</span>: ${data.Actors}</div>
-                                                                          <div class="movie-decription"><span class="movie-decription__titles">Country</span>: ${data.Country}</div>
-                                                                          <div class="movie-decription"><span class="movie-decription__titles">Awards</span>: ${data.Awards}</div>`);
+    MORE_INFORMATION_POPUP.insertAdjacentHTML('afterbegin', `<span class="search__clear close_popup" id="close_movie_information"></span>
+                                                                        <div class="movie-description title_movie-description"><span class="movie-description__titles">Title</span>: ${data.Title}</div>
+                                                                        <div class="movie-description"><span class="movie-description__titles">Year</span>: ${data.Year}</div>
+                                                                        <div class="movie-description"><span class="movie-description__titles">Rated</span>: ${data.Rated}</div>
+                                                                        <div class="movie-description"><span class="movie-description__titles">Runtime</span>: ${data.Runtime}</div>
+                                                                        <div class="movie-description"><span class="movie-description__titles">Genre</span>: ${data.Genre}</div>
+                                                                        <div class="movie-description"><span class="movie-description__titles">Director</span>: ${data.Director}</div>
+                                                                        <div class="movie-description"><span class="movie-description__titles">Actors</span>: ${data.Actors}</div>
+                                                                        <div class="movie-description"><span class="movie-description__titles">Country</span>: ${data.Country}</div>
+                                                                        <div class="movie-description"><span class="movie-description__titles">Awards</span>: ${data.Awards}</div>`);
+  }
+
+  static closeMoreInformationPopup() {
+    BLACKOUT.classList.add('hidden');
+    MORE_INFORMATION_POPUP.classList.add('hidden');
   }
 }
