@@ -1,0 +1,21 @@
+@import "../../abstract/constants";
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@1,500&display=swap');
+
+.inputs {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+textarea {
+  max-lines: 30;
+  font-size: 19px;
+  background: #2B2B2B;
+  font-family: 'Source Code Pro', monospace;
+  color: $color-text;
+  border-radius: 3px;
+  width: 100%;
+  max-width: 780px;
+  height: 100px;
+  resize: none;
+}

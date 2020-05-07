@@ -21,18 +21,16 @@ export default class Slide {
       this.inputValue = INPUT_SEARCH.value.trim();
     });
     SEARCH_FORM.addEventListener('submit', async (event) => {
-      SWIPER.innerHTML = '';
+      event.preventDefault();
+      Swiper.slideTo(0, 1, false);
       SWIPER_SECTION.classList.remove('hidden');
       this.mainPagePreloadCss.classList.remove('hidden');
-      Swiper.update();
-      SWIPER.querySelectorAll('.swiper-slide').forEach((slide) => {
-        slide.innerHTML = '';
-      });
-      event.preventDefault();
       this.searchPreloadCss.classList.remove('hidden');
+      SWIPER.innerHTML = '';
       await this.createPage();
       await this.getMovies();
-      // this.getMoreMovieInformation();
+      this.getMoreMovieInformation();
+      this.pageIndex = 1;
       this.searchPreloadCss.classList.add('hidden');
     });
   }
@@ -141,6 +139,7 @@ export default class Slide {
                     <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="7"></div>
                     <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="8"></div>
                     <div class="swiper-slide" data-page-index="${this.pageIndex}" data-slide-index="9"></div>`);
+    Swiper.update();
   }
 
   getMoreMovieInformation() {

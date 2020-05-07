@@ -2,3 +2,31 @@
   padding: 3px 10px;
   margin-bottom: 5px;
 }
+
+.search__clear {
+  cursor: pointer;
+  padding-top: 38px;
+  position: absolute;
+  width: 48px;
+  height: 28px;
+  background-image: url(../assets/img/clear.png);
+  background-size: 28px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin-left: -116px;
+}
+
+.search__keyboard {
+  position: absolute;
+  cursor: pointer;
+  width: 48px;
+  height: 38px;
+  margin-left: -89px;
+  background-image: url(../assets/img/keyboard.png);
+  background-size: 43px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  @media (max-width: 767px) {
+    display: none;
+  }
+}

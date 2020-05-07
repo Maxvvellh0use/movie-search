@@ -17,5 +17,8 @@ export const CSS_LOADER = document.getElementById('cssload_main-page');
 export const MORE_INFORMATION_POPUP = document.getElementById('more_information');
 export const BLACKOUT = document.getElementById('popup_blackout');
 
+// keyboard:
+export const language = 'eng';
+export const KEYBOARD_BUTTON = document.getElementById('keyboard_button');
 
 export const startRequest = 'dream';

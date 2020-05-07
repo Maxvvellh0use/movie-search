@@ -1,0 +1,37 @@
+@import "../../abstract/constants";
+@import url('https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@500&display=swap');
+
+.keyboard_body {
+  position: absolute;
+  display: flex;
+  z-index: 30;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  flex-direction: column;
+  color: $color-text;
+  top: 20%;
+  left: 14%;
+  border: 1px solid black;
+  border-radius: 3px;
+  background: $color-background-keyboard-body;
+  width: 100%;
+  height: 100%;
+  max-width: 762px;
+  max-height: 276px;
+  @media (max-width: 1020px) {
+    left: 7%;
+  }
+  @media (max-width: 790px) {
+    left: 0;
+  }
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+  font-family: 'Yanone Kaffeesatz', sans-serif;
+  font-size: 24px;
+  margin: 7px 0;
+}

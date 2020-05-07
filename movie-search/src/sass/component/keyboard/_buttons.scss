@@ -1,0 +1,87 @@
+@import "../../abstract/constants";
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  height: 100%;
+  background: $color-buttons;
+  vertical-align: middle;
+  max-width: 40px;
+  max-height: 40px;
+  border: 1px solid $color-buttons;
+  box-shadow: 0 0 3px $color-text;
+  margin: 5px 5px 0px 6px;
+  flex: 1 0 10%;
+  border-radius: 5px;
+}
+
+.buttons:hover {
+  cursor: pointer;
+  background: #797B7E;
+}
+
+#Space {
+  max-width: 267px;
+}
+
+#Tab {
+  max-width: 52px;
+}
+
+#ShiftLeft {
+  max-width: 90px;
+}
+
+#ShiftRight {
+  max-width: 90px;
+}
+
+#Backspace {
+  max-width: 86px;
+}
+
+#ControlLeft {
+  max-width: 47px;
+}
+
+#ControlRight {
+  max-width: 47px;
+}
+
+#CapsLock {
+  max-width: 74px;
+}
+
+#MetaLeft {
+  max-width: 47px;
+}
+
+#AltLeft {
+  max-width: 72px;
+}
+
+#AltRight {
+  max-width: 72px;
+}
+
+#ENTER {
+  max-width: 52px;
+}
+
+#DELETE {
+  max-width: 74px;
+}
+
+.additional {
+  margin-left: 5px;
+  align-self: end;
+}
+
+.active {
+  background: $color-active;
+  transform: scale(1.1);
+  transition: all ease-out .3s;
+  color: white;
+}
