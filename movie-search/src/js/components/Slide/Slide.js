@@ -2,7 +2,8 @@ import Swiper from '../Swiper/Swiper';
 import '../../../../node_modules/swiper/css/swiper.css';
 
 import {
-  SWIPER, SEARCH_FORM, INPUT_SEARCH, SWIPER_SECTION, ERROR_MESSAGE, startRequest, MORE_INFORMATION_POPUP, BLACKOUT
+  SWIPER, SEARCH_FORM, INPUT_SEARCH, SWIPER_SECTION, ERROR_MESSAGE, startRequest,
+  MORE_INFORMATION_POPUP, BLACKOUT,
 } from '../../constants/constants';
 
 export default class Slide {
@@ -22,18 +23,21 @@ export default class Slide {
     });
     SEARCH_FORM.addEventListener('submit', async (event) => {
       event.preventDefault();
-      Swiper.slideTo(0, 1, false);
-      ERROR_MESSAGE.classList.add('hidden');
-      SWIPER_SECTION.classList.remove('hidden');
-      this.mainPagePreloadCss.classList.remove('hidden');
-      this.searchPreloadCss.classList.remove('hidden');
-      SWIPER.innerHTML = '';
-      await this.createPage();
-      await this.getMovies();
-      this.getMoreMovieInformation();
-      this.pageIndex = 1;
-      this.searchPreloadCss.classList.add('hidden');
+      await this.submitToSearch(event);
     });
+  }
+
+  async submitToSearch() {
+    Swiper.slideTo(0, 1, false);
+    ERROR_MESSAGE.classList.add('hidden');
+    SWIPER_SECTION.classList.remove('hidden');
+    this.mainPagePreloadCss.classList.remove('hidden');
+    this.searchPreloadCss.classList.remove('hidden');
+    SWIPER.innerHTML = '';
+    await this.createPage();
+    await this.getMovies();
+    this.pageIndex = 1;
+    this.searchPreloadCss.classList.add('hidden');
   }
 
   async startRequest() {
@@ -92,6 +96,7 @@ export default class Slide {
     }
     // await appendContent().catch(() => this.class.isError('Превышен лимит запросов!'));
     slidesPage.forEach((slide) => appendContent(slide).catch(() => this.class.isError(`No results for ${this.inputValue}`)));
+    this.getMoreMovieInformation();
   }
 
   static createSlides(slide, posterMovie, titleMovie, yearMovie, videogalleryMovie, rating) {
@@ -122,7 +127,6 @@ export default class Slide {
       this.pageIndex += 1;
       await this.createPage();
       await this.getMovies();
-      this.getMoreMovieInformation();
       Swiper.update();
     });
   }
@@ -188,4 +192,9 @@ export default class Slide {
     BLACKOUT.classList.add('hidden');
     MORE_INFORMATION_POPUP.classList.add('hidden');
   }
+
+  // submitByEnterOnVirtualKeyboard() {
+  //   // this.toSearch();
+  //   document.getElementById('ENTER').addEventListener('click', this.submitToSearch);
+  // }
 }

@@ -9,7 +9,6 @@ window.addEventListener('load', async () => {
   await slide.startRequest();
   slide.toSearch();
   slide.getNextPage();
-  slide.getMoreMovieInformation();
 });
 
 Form.clearForm();
