@@ -23,6 +23,7 @@ export default class Slide {
     SEARCH_FORM.addEventListener('submit', async (event) => {
       event.preventDefault();
       Swiper.slideTo(0, 1, false);
+      ERROR_MESSAGE.classList.add('hidden');
       SWIPER_SECTION.classList.remove('hidden');
       this.mainPagePreloadCss.classList.remove('hidden');
       this.searchPreloadCss.classList.remove('hidden');
