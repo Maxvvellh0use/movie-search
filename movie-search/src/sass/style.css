@@ -10348,6 +10348,13 @@ a:hover {
     left: 10vw;
   }
 }
+@media (max-width: 400px) {
+  .more_information {
+    max-height: 400px;
+    max-width: 250px;
+    left: 7vw;
+  }
+}
 
 .more_information a {
   color: black;
@@ -10381,6 +10388,16 @@ a:hover {
 .close_popup {
   position: relative;
   margin-left: 455px;
+}
+@media (max-width: 767px) {
+  .close_popup {
+    margin-left: 255px;
+  }
+}
+@media (max-width: 400px) {
+  .close_popup {
+    margin-left: 210px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -21,6 +21,11 @@
     max-width: 300px;
     left: 10vw;
   }
+  @media (max-width: 400px) {
+    max-height: 400px;
+    max-width: 250px;
+    left: 7vw;
+  }
 }
 
 .more_information a {
@@ -55,6 +60,12 @@
 .close_popup {
   position: relative;
   margin-left: 455px;
+  @media (max-width: 767px) {
+    margin-left: 255px;
+  }
+  @media (max-width: 400px) {
+    margin-left: 210px;
+  }
 }
 
 
