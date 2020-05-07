@@ -6,6 +6,8 @@ import {
   MORE_INFORMATION_POPUP, BLACKOUT,
 } from '../../constants/constants';
 
+
+
 export default class Slide {
   constructor() {
     this.slides = SWIPER.querySelectorAll('.swiper-slide');
@@ -28,6 +30,7 @@ export default class Slide {
   }
 
   async submitToSearch() {
+    this.inputValue = INPUT_SEARCH.value.trim();
     Swiper.slideTo(0, 1, false);
     ERROR_MESSAGE.classList.add('hidden');
     SWIPER_SECTION.classList.remove('hidden');
@@ -193,8 +196,7 @@ export default class Slide {
     MORE_INFORMATION_POPUP.classList.add('hidden');
   }
 
-  // submitByEnterOnVirtualKeyboard() {
-  //   // this.toSearch();
-  //   document.getElementById('ENTER').addEventListener('click', this.submitToSearch);
-  // }
+  submitByEnterOnVirtualKeyboard() {
+    document.getElementById('ENTER').addEventListener('click', this.submitToSearch.bind(this));
+  }
 }

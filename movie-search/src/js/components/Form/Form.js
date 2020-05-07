@@ -1,4 +1,9 @@
-import { CLEAR_BUTTON, SEARCH_FORM, KEYBOARD_BUTTON } from '../../constants/constants';
+import {
+  CLEAR_BUTTON,
+  SEARCH_FORM,
+  KEYBOARD_BUTTON,
+  INPUT_SEARCH,
+} from '../../constants/constants';
 import Keyboard from '../Keyboard/Keyboard';
 import Slide from '../Slide/Slide';
 import Keys from '../Keyboard/Keys';
@@ -15,13 +20,14 @@ export default class Form {
   }
 
   openKeyboard() {
+    const slide = new Slide();
+    slide.toSearch();
     KEYBOARD_BUTTON.addEventListener('click', () => {
-      const slide = new Slide();
       const keyboard = new Keyboard();
       const keyboardBody = document.getElementById('keyboard');
       keyboard.createKeyboard();
       this.language();
-      // slide.submitByEnterOnVirtualKeyboard();
+      slide.submitByEnterOnVirtualKeyboard();
       if (this.keyboardOpenClicks === 0) {
         keyboardBody.classList.remove('hidden');
         this.keyboardOpenClicks = 1;

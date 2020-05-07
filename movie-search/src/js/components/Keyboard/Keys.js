@@ -15,8 +15,7 @@ export default class Keys {
     this.allKeys = document.querySelectorAll('.line .buttons');
     this.allSpans = document.querySelectorAll('.line .buttons span');
     this.activeElements = [];
-    this.input = document.getElementById('input_search');
-    this.curPos = this.input.selectionStart;
+    this.curPos = INPUT_SEARCH.selectionStart;
     this.altLeft = document.getElementById('AltLeft');
     this.shiftLeft = document.getElementById('ShiftLeft');
     this.clickToCaps = 0;
@@ -73,14 +72,14 @@ export default class Keys {
 
   symbolsToInput(symbols, event) {
     event.preventDefault();
-    this.input.value += symbols.textContent.toString();
-    this.input.innerText = this.input.value;
+    INPUT_SEARCH.value += symbols.textContent.toString();
+    INPUT_SEARCH.innerText = INPUT_SEARCH.value;
   }
 
   typing(event) {
     this.activeElements.forEach((symbols) => {
       if (this.isArrow(symbols, event)) {
-        this.input.focus();
+        INPUT_SEARCH.focus();
       }
       if (this.isKeyboardEvent(symbols, event)) {
         this.symbolsToInput(symbols, event);
@@ -114,21 +113,21 @@ export default class Keys {
   backspace(event) {
     if (event.target.textContent === 'Backspace' || event.key === 'Backspace') {
       event.preventDefault();
-      this.input.value = this.input.value.slice(0, this.curPos - 1);
+      INPUT_SEARCH.value = INPUT_SEARCH.value.slice(0, this.curPos - 1);
     }
   }
 
   tab(event) {
     if (event.target.textContent === 'Tab' || event.code === 'Tab') {
       event.preventDefault();
-      this.input.value += '  ';
+      INPUT_SEARCH.value += '  ';
     }
   }
 
   space(event) {
     if (event.target.textContent === 'SPACE' || event.code === 'Space') {
       event.preventDefault();
-      this.input.value += ' ';
+      INPUT_SEARCH.value += ' ';
     }
   }
 
@@ -213,7 +212,7 @@ export default class Keys {
 
     document.addEventListener('mouseup', (event) => {
       const keys = new Keys();
-      keys.input.focus();
+      INPUT_SEARCH.focus();
       keys.mouseUp(event);
     });
   }

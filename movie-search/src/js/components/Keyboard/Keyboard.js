@@ -23,11 +23,11 @@ createRoot();
 export default class Keyboard {
   constructor() {
     this.root = document.getElementById('keyboard');
-    this.createLineOfKeyboard = this.createLineOfKeyboard.bind(this);
-    this.createEngKeyboard = this.createEngKeyboard.bind(this);
-    this.addCorrectIdToServiceKeys = this.addCorrectIdToServiceKeys.bind(this);
-    this.createRusSymbols = this.createRusSymbols.bind(this);
-    this.createEngSymbols = this.createEngSymbols.bind(this);
+    // this.createLineOfKeyboard = this.createLineOfKeyboard.bind(this);
+    // this.createEngKeyboard = this.createEngKeyboard.bind(this);
+    // this.addCorrectIdToServiceKeys = this.addCorrectIdToServiceKeys.bind(this);
+    // this.createRusSymbols = this.createRusSymbols.bind(this);
+    // this.createEngSymbols = this.createEngSymbols.bind(this);
   }
 
   createKeyboard() {
