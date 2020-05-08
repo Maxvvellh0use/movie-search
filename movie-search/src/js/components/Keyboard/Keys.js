@@ -1,13 +1,7 @@
-import language from './Keyboard';
 import Keyboard from './Keyboard';
 import {
-  SEARCH_FORM,
-  ERROR_MESSAGE,
-  SWIPER_SECTION,
-  SUBMIT_BUTTON,
   INPUT_SEARCH,
 } from '../../constants/constants';
-import Slide from '../Slide/Slide';
 
 export default class Keys {
   constructor() {
@@ -31,23 +25,6 @@ export default class Keys {
   }
 
   mouseUp() {
-    this.activeElements.map((elem) => {
-      if (elem.id !== 'CapsLock') {
-        elem.classList.remove('active');
-      }
-    });
-    this.activeElements = [];
-  }
-
-  keyDown(event) {
-    this.allKeys.forEach((elem) => {
-      if (elem.id === event.target.id || elem.id.toUpperCase() === event.code.toUpperCase()) {
-        this.activeElements.push(elem);
-      }
-    });
-  }
-
-  keyUp() {
     this.activeElements.map((elem) => {
       if (elem.id !== 'CapsLock') {
         elem.classList.remove('active');
@@ -90,22 +67,13 @@ export default class Keys {
   }
 
   changeLanguage(event) {
-    // if (language === 'eng' && this.activeElements.includes(this.altLeft) && this.activeElements.includes(this.shiftLeft)) {
-
     if (event.target.textContent === 'Language' && this.language === 'en') {
-      console.log(this.language);
       this.keyboard.createRusSymbols();
       this.language = 'ru';
     } else if (event.target.textContent === 'Language' && this.language === 'ru') {
-      console.log(this.language);
       this.keyboard.createEngSymbols();
       this.language = 'en';
     }
-    //   localStorage.setItem(language, 'rus');
-    // } else if (localStorage.getItem(language) === 'rus' && this.activeElements.includes(this.altLeft) && this.activeElements.includes(this.shiftLeft)) {
-    //   this.keyboard.createEngSymbols();
-    //   localStorage.setItem(language, 'eng');
-    // }
   }
 
   // serviceKeys:
@@ -129,24 +97,6 @@ export default class Keys {
       event.preventDefault();
       INPUT_SEARCH.value += ' ';
     }
-  }
-
-  enter(event) {
-    const slide = new Slide();
-
-    // document.getElementById('ENTER').addEventListener('click', async (event) => {
-    //   await slide.submitToSearch(event);
-    // });
-    // SEARCH_FORM.addEventListener('submit', async (event) => {
-    //   await slide.submitToSearch(event);
-    // });
-
-    // if (event.target.textContent === 'ENTER' || event.code === 'Enter') {
-    //   INPUT_SEARCH.addEventListener('change', () => {
-    //     slide.inputValue = INPUT_SEARCH.value.trim();
-    //   });
-    //   SEARCH_FORM.requestSubmit(SUBMIT_BUTTON);
-    // }
   }
 
   isLettersSymbols(symbols) {
@@ -179,26 +129,6 @@ export default class Keys {
   }
 
   static getKeysEvents() {
-    document.addEventListener('keydown', (event) => {
-    //   const keys = new Keys();
-    //   keys.keyDown(event);
-    //   keys.typing(event);
-    //   keys.changeLanguage(event);
-    //   // serviceKeys:
-    //   keys.backspace(event);
-    //   keys.tab(event);
-    //   keys.space(event);
-    //   keys.enter(event);
-    //   keys.capsLock(event);
-    // });
-    //
-    // document.addEventListener('keyup', (event) => {
-    //   const keys = new Keys();
-    //   keys.keyUp(event);
-    });
-
-    // mouse events:
-
     document.addEventListener('mousedown', (event) => {
       const keys = new Keys();
       keys.mouseDown(event);
@@ -206,7 +136,6 @@ export default class Keys {
       keys.backspace(event);
       keys.tab(event);
       keys.space(event);
-      keys.enter(event);
       keys.capsLock(event);
     });
 
@@ -217,6 +146,3 @@ export default class Keys {
     });
   }
 }
-
-
-// keyboard events:

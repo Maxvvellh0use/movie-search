@@ -7,7 +7,6 @@ import {
 } from '../../constants/constants';
 
 
-
 export default class Slide {
   constructor() {
     this.slides = SWIPER.querySelectorAll('.swiper-slide');
@@ -19,17 +18,25 @@ export default class Slide {
     this.pageIndex = 1;
   }
 
+  eventsForBlackoutBackground() {
+    BLACKOUT.addEventListener('click', () => {
+      this.class.closeMoreInformationPopup();
+      this.class.closeKeyboard();
+    });
+  }
+
   toSearch() {
     INPUT_SEARCH.addEventListener('change', () => {
       this.inputValue = INPUT_SEARCH.value.trim();
     });
     SEARCH_FORM.addEventListener('submit', async (event) => {
       event.preventDefault();
-      await this.submitToSearch(event);
+      return await this.submitToSearch();
     });
   }
 
   async submitToSearch() {
+    console.log('Search');
     this.inputValue = INPUT_SEARCH.value.trim();
     Swiper.slideTo(0, 1, false);
     ERROR_MESSAGE.classList.add('hidden');
@@ -72,8 +79,8 @@ export default class Slide {
 
   async getTranslate() {
     const urlTranslate = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200322T155651Z.de98a60e6a99185e.089aea4237b51c6db082c966f27a7895cd1e8b44&text=${this.inputValue}&lang=ru-en`;
-    const translating = await fetch(urlTranslate).catch(() => this.class.isError('Исчерпан лимит запросов!'));
-    const translateResult = await translating.json();
+    const translating = await fetch(urlTranslate).catch(() => this.class.isError(`No results for ${this.inputValue}`));
+    const translateResult = await translating.json().catch(() => this.class.isError(`No results for ${this.inputValue}`));
     this.showTranslateNotification(translateResult);
     return translateResult;
   }
@@ -94,17 +101,15 @@ export default class Slide {
       const titleMovie = data.Search[slideIndex].Title;
       const yearMovie = data.Search[slideIndex].Year;
       const videogalleryMovie = data.Search[slideIndex].imdbID;
-      // await posterMovie.catch(() => Slide.createAltPoster(posterMovie));
       Slide.createSlides(slide, posterMovie, titleMovie, yearMovie, videogalleryMovie, rating);
     }
-    // await appendContent().catch(() => this.class.isError('Превышен лимит запросов!'));
     slidesPage.forEach((slide) => appendContent(slide).catch(() => this.class.isError(`No results for ${this.inputValue}`)));
     this.getMoreMovieInformation();
   }
 
   static createSlides(slide, posterMovie, titleMovie, yearMovie, videogalleryMovie, rating) {
     const posterErrorMessage = 'Сервис с этой фотографией временно недоступен';
-    slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" href="https://www.imdb.com/title/${videogalleryMovie}/videogallery/?ref_=tt_pv_vi_sm">${titleMovie}</a></div>`);
+    slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" data-id="slideTitle" href="https://www.imdb.com/title/${videogalleryMovie}/videogallery/?ref_=tt_pv_vi_sm">${titleMovie}</a></div>`);
     slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${posterMovie}" alt="${posterErrorMessage}"></div>`);
     slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${yearMovie}</div>`);
     slide.insertAdjacentHTML('beforeend', `<div class="slide__rating">${rating.imdbRating}</div>`);
@@ -115,7 +120,6 @@ export default class Slide {
     ERROR_MESSAGE.innerHTML = '';
     ERROR_MESSAGE.classList.remove('hidden');
     ERROR_MESSAGE.insertAdjacentHTML('afterbegin', `<h2>Ошибка! ${textError}</h2>`);
-    // setTimeout(() => window.location.reload(), 1000);
   }
 
   showTranslateNotification(translateResult) {
@@ -152,23 +156,22 @@ export default class Slide {
 
   getMoreMovieInformation() {
     const slidesPage = SWIPER.querySelectorAll(`div[data-page-index='${this.pageIndex}']`);
-    slidesPage.forEach((slide) => slide.addEventListener('click', async () => {
-      const titleMovie = slide.firstElementChild.textContent;
-      MORE_INFORMATION_POPUP.classList.remove('hidden');
-      MORE_INFORMATION_POPUP.innerHTML = '';
-      this.class.createPreloadDescriptionMovie();
-      BLACKOUT.classList.remove('hidden');
-      BLACKOUT.addEventListener('click', () => {
-        this.class.closeMoreInformationPopup();
-      });
-      const urlMovie = `https://www.omdbapi.com/?t=${titleMovie}&plot=full&apikey=7185f30c`;
-      const res = await fetch(urlMovie).catch(() => this.class.isError(`No results for ${this.inputValue}`));
-      const data = await res.json();
-      const descriptionPreloadCss = document.getElementById('description_preload');
-      descriptionPreloadCss.classList.add('hidden');
-      this.class.createMoreInformationPopup(data);
-      const closeMovieInformation = document.getElementById('close_movie_information');
-      closeMovieInformation.addEventListener('click', this.class.closeMoreInformationPopup);
+    slidesPage.forEach((slide) => slide.addEventListener('click', async (event) => {
+      if (event.target.dataset.id === undefined) {
+        const titleMovie = slide.firstElementChild.textContent;
+        MORE_INFORMATION_POPUP.classList.remove('hidden');
+        MORE_INFORMATION_POPUP.innerHTML = '';
+        this.class.createPreloadDescriptionMovie();
+        BLACKOUT.classList.remove('hidden');
+        const urlMovie = `https://www.omdbapi.com/?t=${titleMovie}&plot=full&apikey=7185f30c`;
+        const res = await fetch(urlMovie).catch(() => this.class.isError(`No results for ${this.inputValue}`));
+        const data = await res.json();
+        const descriptionPreloadCss = document.getElementById('description_preload');
+        descriptionPreloadCss.classList.add('hidden');
+        this.class.createMoreInformationPopup(data);
+        const closeMovieInformation = document.getElementById('close_movie_information');
+        closeMovieInformation.addEventListener('click', this.class.closeMoreInformationPopup);
+      }
     }));
   }
 
@@ -197,6 +200,16 @@ export default class Slide {
   }
 
   submitByEnterOnVirtualKeyboard() {
-    document.getElementById('ENTER').addEventListener('click', this.submitToSearch.bind(this));
+    const virtualKeyEnter = document.getElementById('ENTER');
+    virtualKeyEnter.addEventListener('click', this.submitToSearch.bind(this));
+    virtualKeyEnter.addEventListener('click', () => {
+      this.class.closeKeyboard();
+    });
+  }
+
+  static closeKeyboard() {
+    const keyboardBody = document.getElementById('keyboard');
+    keyboardBody.classList.add('hidden');
+    BLACKOUT.classList.add('hidden');
   }
 }

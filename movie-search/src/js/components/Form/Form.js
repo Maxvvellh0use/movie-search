@@ -2,7 +2,7 @@ import {
   CLEAR_BUTTON,
   SEARCH_FORM,
   KEYBOARD_BUTTON,
-  INPUT_SEARCH,
+  BLACKOUT,
 } from '../../constants/constants';
 import Keyboard from '../Keyboard/Keyboard';
 import Slide from '../Slide/Slide';
@@ -11,6 +11,7 @@ import Keys from '../Keyboard/Keys';
 export default class Form {
   constructor() {
     this.keyboardOpenClicks = 0;
+    this.class = Form;
   }
 
   static clearForm() {
@@ -26,19 +27,21 @@ export default class Form {
       const keyboard = new Keyboard();
       const keyboardBody = document.getElementById('keyboard');
       keyboard.createKeyboard();
-      this.language();
+      this.class.language();
       slide.submitByEnterOnVirtualKeyboard();
       if (this.keyboardOpenClicks === 0) {
         keyboardBody.classList.remove('hidden');
+        BLACKOUT.classList.remove('hidden');
         this.keyboardOpenClicks = 1;
       } else {
         keyboardBody.classList.add('hidden');
+        BLACKOUT.classList.add('hidden');
         this.keyboardOpenClicks = 0;
       }
     });
   }
 
-  language() {
+  static language() {
     const keys = new Keys();
     document.addEventListener('mousedown', (event) => keys.changeLanguage(event));
   }

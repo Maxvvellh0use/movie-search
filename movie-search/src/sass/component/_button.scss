@@ -4,6 +4,7 @@
 }
 
 .search__clear {
+  z-index: 25;
   cursor: pointer;
   padding-top: 38px;
   position: absolute;
@@ -17,6 +18,7 @@
 }
 
 .search__keyboard {
+  z-index: 25;
   position: absolute;
   cursor: pointer;
   width: 48px;

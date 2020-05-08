@@ -15,8 +15,6 @@ const correctId = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5'
   'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight',
   'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ControlRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight'];
 
-const descriptionInput = 'Клавиатура создана в ОС Windows, смена языка — Левый Shift + Левый Alt';
-
 export {
-  symbolsEngKeys, symbolRusKeys, correctId, descriptionInput,
+  symbolsEngKeys, symbolRusKeys, correctId,
 };
