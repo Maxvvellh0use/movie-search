@@ -210,6 +210,7 @@ export default class Slide {
   static closeKeyboard() {
     const keyboardBody = document.getElementById('keyboard');
     keyboardBody.classList.add('hidden');
+    INPUT_SEARCH.classList.remove('z-index20');
     BLACKOUT.classList.add('hidden');
   }
 }

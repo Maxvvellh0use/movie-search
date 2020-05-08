@@ -13,7 +13,6 @@
 
 .search__input {
   position: relative;
-  z-index: 20;
   width: 700px;
   margin-top: 3px;
   height: 32px;
@@ -38,6 +37,10 @@
 
 .search__input:focus {
   border: 1px solid $color-border-input;
+}
+
+.z-index20 {
+  z-index: 20;
 }
 
 

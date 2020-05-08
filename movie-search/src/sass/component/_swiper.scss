@@ -17,7 +17,6 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  height: 86vh !important;
   width: 25vw;
   background: $color-swiper-background;
   display: -webkit-box;
@@ -32,6 +31,10 @@
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+}
+
+.swiper-wrapper .swiper-slide {
+  height: 600px;
 }
 
 .swiper-pagination {

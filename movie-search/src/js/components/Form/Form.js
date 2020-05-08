@@ -3,6 +3,7 @@ import {
   SEARCH_FORM,
   KEYBOARD_BUTTON,
   BLACKOUT,
+  INPUT_SEARCH
 } from '../../constants/constants';
 import Keyboard from '../Keyboard/Keyboard';
 import Slide from '../Slide/Slide';
@@ -32,10 +33,12 @@ export default class Form {
       if (this.keyboardOpenClicks === 0) {
         keyboardBody.classList.remove('hidden');
         BLACKOUT.classList.remove('hidden');
+        INPUT_SEARCH.classList.add('z-index20');
         this.keyboardOpenClicks = 1;
       } else {
         keyboardBody.classList.add('hidden');
         BLACKOUT.classList.add('hidden');
+        INPUT_SEARCH.classList.remove('z-index20');
         this.keyboardOpenClicks = 0;
       }
     });
