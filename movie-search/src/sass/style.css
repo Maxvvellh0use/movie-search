@@ -10085,8 +10085,7 @@ a:hover {
 }
 
 .slider_movies .swiper-button-prev {
-  margin-top: 10vh;
-  margin-left: 120px;
+  margin: 0 auto 0 120px;
 }
 @media (max-width: 767px) {
   .slider_movies .swiper-button-prev {
@@ -10095,8 +10094,7 @@ a:hover {
 }
 
 .slider_movies .swiper-button-next {
-  margin-top: 10vh;
-  margin-right: 120px;
+  margin: 0 120px 0 auto;
 }
 @media (max-width: 767px) {
   .slider_movies .swiper-button-next {

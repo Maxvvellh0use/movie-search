@@ -36,7 +36,6 @@ export default class Slide {
   }
 
   async submitToSearch() {
-    console.log('Search');
     this.inputValue = INPUT_SEARCH.value.trim();
     Swiper.slideTo(0, 1, false);
     ERROR_MESSAGE.classList.add('hidden');
