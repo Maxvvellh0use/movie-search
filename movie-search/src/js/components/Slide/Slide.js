@@ -31,11 +31,12 @@ export default class Slide {
     });
     SEARCH_FORM.addEventListener('submit', async (event) => {
       event.preventDefault();
-      return await this.submitToSearch();
+      await this.submitToSearch();
     });
   }
 
   async submitToSearch() {
+    console.log('call')
     this.inputValue = INPUT_SEARCH.value.trim();
     Swiper.slideTo(0, 1, false);
     ERROR_MESSAGE.classList.add('hidden');

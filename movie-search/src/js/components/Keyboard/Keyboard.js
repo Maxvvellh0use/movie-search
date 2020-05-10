@@ -33,16 +33,7 @@ export default class Keyboard {
   createKeyboard() {
     this.createLineOfKeyboard();
     this.createEngKeyboard();
-    this.createSymbolsByLanguage(language);
     this.addCorrectIdToServiceKeys();
-  }
-
-  createSymbolsByLanguage(language) {
-    if (localStorage.getItem(language) === 'eng') {
-      this.createEngSymbols();
-    } else if (localStorage.getItem(language) === 'rus') {
-      this.createRusSymbols();
-    }
   }
 
   createLineOfKeyboard() {

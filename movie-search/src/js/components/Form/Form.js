@@ -23,7 +23,6 @@ export default class Form {
 
   openKeyboard() {
     const slide = new Slide();
-    slide.toSearch();
     KEYBOARD_BUTTON.addEventListener('click', () => {
       const keyboard = new Keyboard();
       const keyboardBody = document.getElementById('keyboard');
