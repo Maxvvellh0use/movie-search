@@ -2,16 +2,6 @@ import {
   symbolsEngKeys, symbolRusKeys, correctId,
 } from './symbols';
 
-const language = 'eng';
-
-const checkLanguageStorage = () => {
-  if (!localStorage.getItem(language)) {
-    localStorage.setItem(language, 'eng');
-  }
-};
-
-checkLanguageStorage();
-
 const createRoot = () => {
   const keyboardRoot = document.getElementById('keyboardRoot');
   keyboardRoot.insertAdjacentHTML('afterbegin', '<div id="keyboard" class="keyboard_body hidden"></div>');
@@ -23,9 +13,9 @@ createRoot();
 export default class Keyboard {
   constructor() {
     this.root = document.getElementById('keyboard');
+    this.class = Keyboard;
     this.createLineOfKeyboard = this.createLineOfKeyboard.bind(this);
     this.createEngKeyboard = this.createEngKeyboard.bind(this);
-    this.addCorrectIdToServiceKeys = this.addCorrectIdToServiceKeys.bind(this);
     this.createRusSymbols = this.createRusSymbols.bind(this);
     this.createEngSymbols = this.createEngSymbols.bind(this);
   }
@@ -33,7 +23,7 @@ export default class Keyboard {
   createKeyboard() {
     this.createLineOfKeyboard();
     this.createEngKeyboard();
-    this.addCorrectIdToServiceKeys();
+    this.class.addCorrectIdToServiceKeys();
   }
 
   createLineOfKeyboard() {
@@ -55,14 +45,16 @@ export default class Keyboard {
         } else {
           line.insertAdjacentHTML('beforeend', `<div class="buttons" id="service_keys"><span>${key.toString()}</span></div>`);
         }
+        return true;
       });
     });
   }
 
-  addCorrectIdToServiceKeys() {
+  static addCorrectIdToServiceKeys() {
     const allKeys = document.querySelectorAll('.line .buttons');
     allKeys.forEach((keys, index) => {
-      keys.id = correctId[index];
+      const myKeys = keys;
+      myKeys.id = correctId[index];
     });
   }
 
@@ -70,7 +62,8 @@ export default class Keyboard {
     const buttonSpans = this.root.querySelectorAll('.line .buttons span');
     buttonSpans.forEach((keyEng, index) => {
       if (/^[А-Яа-я]+$/.test(String.fromCharCode(symbolRusKeys[index]))) {
-        keyEng.innerHTML = String.fromCharCode(symbolRusKeys[index]);
+        const myKeys = keyEng;
+        myKeys.innerHTML = String.fromCharCode(symbolRusKeys[index]);
       }
     });
   }
@@ -79,8 +72,9 @@ export default class Keyboard {
     const buttonSpans = this.root.querySelectorAll('.line .buttons span');
     buttonSpans.forEach((keyRus, index) => {
       const symbolsEngKeysFlat = symbolsEngKeys.flat();
-      if (/^[A-Za-z\[\];'#,.\/\\]+$/.test(String.fromCharCode(symbolsEngKeysFlat[index]))) {
-        keyRus.innerHTML = String.fromCharCode(symbolsEngKeysFlat[index]);
+      if (/^[A-Za-z[\];'#,./\\]+$/.test(String.fromCharCode(symbolsEngKeysFlat[index]))) {
+        const myKeys = keyRus;
+        myKeys.innerHTML = String.fromCharCode(symbolsEngKeysFlat[index]);
       }
     });
   }

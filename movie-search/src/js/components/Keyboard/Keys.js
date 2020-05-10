@@ -9,7 +9,6 @@ export default class Keys {
     this.allKeys = document.querySelectorAll('.line .buttons');
     this.allSpans = document.querySelectorAll('.line .buttons span');
     this.activeElements = [];
-    this.curPos = INPUT_SEARCH.selectionStart;
     this.altLeft = document.getElementById('AltLeft');
     this.shiftLeft = document.getElementById('ShiftLeft');
     this.clickToCaps = 0;
@@ -30,17 +29,18 @@ export default class Keys {
       if (elem.id !== 'CapsLock') {
         elem.classList.remove('active');
       }
+      return true;
     });
     this.activeElements = [];
   }
 
-  isKeyboardEvent(symbols, event) {
+  static isKeyboardEvent(symbols, event) {
     return event.code === symbols.id && /^[\dA-Яа-яA-Za-z[\]\-=;'#,./\\]+$/.test(symbols.textContent.toString())
       && symbols.textContent.length === 1;
   }
 
-  isMouseEvent(symbols, event) {
-    return /^[\dA-Яа-яA-Za-z\[\]\-=;'#,.\/\\]+$/.test(symbols.textContent.toString()) && symbols.textContent.length === 1
+  static isMouseEvent(symbols, event) {
+    return /^[\dA-Яа-яA-Za-z[\]\-=;'#,./\\]+$/.test(symbols.textContent.toString()) && symbols.textContent.length === 1
       && (event.target.parentElement.id === symbols.id || event.target.id === symbols.id);
   }
 
@@ -54,9 +54,9 @@ export default class Keys {
 
   typing(event) {
     this.activeElements.forEach((symbols) => {
-      if (this.isKeyboardEvent(symbols, event)) {
+      if (this.class.isKeyboardEvent(symbols, event)) {
         this.symbolsToInput(symbols, event);
-      } else if (this.isMouseEvent(symbols, event)) {
+      } else if (this.class.isMouseEvent(symbols, event)) {
         this.symbolsToInput(symbols, event);
       }
     });
@@ -123,35 +123,6 @@ export default class Keys {
     }
   }
 
-  static isLettersSymbols(symbols) {
-    return symbols.textContent.length === 1
-      && /^[\dA-Яа-яA-Za-z\[\]\-=;'#,.\/\\▲▼►◄]+$/.test(symbols.textContent.toString());
-  }
-
-  isCaps(event) {
-    return (event.target.textContent === 'Caps Lock' || event.code === 'CapsLock');
-  }
-
-  capsLock(event) {
-    const buttonSpans = document.querySelectorAll('.line .buttons span');
-    if (this.clickToCaps === 0 && this.isCaps(event)) {
-      buttonSpans.forEach((symbols) => {
-        if (this.class.isLettersSymbols(symbols)) {
-          symbols.innerHTML = symbols.textContent.toUpperCase();
-        }
-      });
-      this.clickToCaps += 1;
-    } else if (this.clickToCaps === 1 && this.isCaps(event)) {
-      buttonSpans.forEach((symbols) => {
-        if (this.class.isLettersSymbols(symbols)) {
-          symbols.innerHTML = symbols.textContent.toLowerCase();
-          this.activeElements[0].classList.remove('active');
-        }
-      });
-      this.clickToCaps = 0;
-    }
-  }
-
   static getKeysEvents() {
     document.addEventListener('mousedown', (event) => {
       const keys = new Keys();
@@ -159,7 +130,6 @@ export default class Keys {
       keys.typing(event);
       keys.backspace(event);
       keys.space(event);
-      keys.capsLock(event);
       keys.arrowDown(event);
       keys.arrowLeft(event);
       keys.arrowRight(event);

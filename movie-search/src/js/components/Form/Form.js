@@ -3,7 +3,7 @@ import {
   SEARCH_FORM,
   KEYBOARD_BUTTON,
   BLACKOUT,
-  INPUT_SEARCH
+  INPUT_SEARCH,
 } from '../../constants/constants';
 import Keyboard from '../Keyboard/Keyboard';
 import Slide from '../Slide/Slide';

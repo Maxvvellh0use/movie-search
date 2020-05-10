@@ -36,7 +36,6 @@ export default class Slide {
   }
 
   async submitToSearch() {
-    console.log('call')
     this.inputValue = INPUT_SEARCH.value.trim();
     Swiper.slideTo(0, 1, false);
     ERROR_MESSAGE.classList.add('hidden');
@@ -88,7 +87,8 @@ export default class Slide {
   async getContent(data) {
     const slidesPage = SWIPER.querySelectorAll(`div[data-page-index='${this.pageIndex}']`);
     async function appendContent(slide) {
-      slide.innerHTML = '';
+      const thisSlide = slide;
+      thisSlide.innerHTML = '';
       slide.insertAdjacentHTML('afterbegin', `<div class="cssload-container">
                                                             <div class="cssload-speeding-wheel"></div>
                                                          </div>`);
@@ -96,7 +96,7 @@ export default class Slide {
       const urlRating = `https://www.omdbapi.com/?i=${data.Search[slideIndex].imdbID}&apikey=7185f30c`;
       const resRating = await fetch(urlRating).catch(() => this.class.isError('Исчерпан лимит запросов!'));
       const rating = await resRating.json();
-      slide.innerHTML = '';
+      thisSlide.innerHTML = '';
       const posterMovie = data.Search[slideIndex].Poster;
       const titleMovie = data.Search[slideIndex].Title;
       const yearMovie = data.Search[slideIndex].Year;
