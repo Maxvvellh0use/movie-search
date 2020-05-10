@@ -11,7 +11,6 @@ export default class Keys {
     this.activeElements = [];
     this.altLeft = document.getElementById('AltLeft');
     this.shiftLeft = document.getElementById('ShiftLeft');
-    this.clickToCaps = 0;
     this.language = 'en';
     this.class = Keys;
   }

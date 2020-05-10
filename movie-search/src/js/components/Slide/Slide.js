@@ -6,7 +6,6 @@ import {
   MORE_INFORMATION_POPUP, BLACKOUT,
 } from '../../constants/constants';
 
-
 export default class Slide {
   constructor() {
     this.slides = SWIPER.querySelectorAll('.swiper-slide');
@@ -127,6 +126,7 @@ export default class Slide {
     ERROR_MESSAGE.innerHTML = '';
     ERROR_MESSAGE.classList.remove('hidden');
     ERROR_MESSAGE.insertAdjacentHTML('afterbegin', `<h2>Ошибка! ${textError}</h2>`);
+    return `Ошибка! ${textError}`;
   }
 
   showTranslateNotification(translateResult) {
@@ -221,3 +221,7 @@ export default class Slide {
     BLACKOUT.classList.add('hidden');
   }
 }
+
+module.export = {
+  isError: () => 'Error',
+};
