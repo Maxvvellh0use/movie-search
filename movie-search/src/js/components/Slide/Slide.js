@@ -108,9 +108,16 @@ export default class Slide {
   }
 
   static createSlides(slide, posterMovie, titleMovie, yearMovie, videogalleryMovie, rating) {
-    const posterErrorMessage = 'Сервис с этой фотографией временно недоступен';
+    const posterErrorMessage = 'Сервер с данной фотографией временно недоступен';
+    const altPosterMovie = '/src/img/alt_img.png';
+    function isPosterUndefined() {
+      if (posterMovie === 'N/A') {
+        return altPosterMovie;
+      }
+      return posterMovie;
+    }
     slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" data-id="slideTitle" href="https://www.imdb.com/title/${videogalleryMovie}/videogallery/?ref_=tt_pv_vi_sm">${titleMovie}</a></div>`);
-    slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${posterMovie}" alt="${posterErrorMessage}"></div>`);
+    slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${isPosterUndefined()}" alt="${posterErrorMessage}"></div>`);
     slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${yearMovie}</div>`);
     slide.insertAdjacentHTML('beforeend', `<div class="slide__rating">${rating.imdbRating}</div>`);
   }
