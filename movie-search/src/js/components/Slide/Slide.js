@@ -84,10 +84,10 @@ export default class Slide {
   }
 
   async getContent(data) {
+    console.log('fhfgj')
     const slidesPage = SWIPER.querySelectorAll(`div[data-page-index='${this.pageIndex}']`);
     async function appendContent(slide) {
       const thisSlide = slide;
-      thisSlide.innerHTML = '';
       slide.insertAdjacentHTML('afterbegin', `<div class="cssload-container">
                                                             <div class="cssload-speeding-wheel"></div>
                                                          </div>`);
@@ -95,28 +95,27 @@ export default class Slide {
       const urlRating = `https://www.omdbapi.com/?i=${data.Search[slideIndex].imdbID}&apikey=7185f30c`;
       const resRating = await fetch(urlRating).catch(() => this.class.isError('Исчерпан лимит запросов!'));
       const rating = await resRating.json();
-      thisSlide.innerHTML = '';
       const posterMovie = data.Search[slideIndex].Poster;
+      const posterImage = new Image();
       const titleMovie = data.Search[slideIndex].Title;
       const yearMovie = data.Search[slideIndex].Year;
       const videogalleryMovie = data.Search[slideIndex].imdbID;
-      Slide.createSlides(slide, posterMovie, titleMovie, yearMovie, videogalleryMovie, rating);
+      posterImage.src = posterMovie;
+      posterImage.addEventListener('load', () => {
+        thisSlide.innerHTML = '';
+        Slide.createSlides(slide, posterImage, titleMovie, yearMovie, videogalleryMovie, rating);
+      });
     }
-    slidesPage.forEach((slide) => appendContent(slide).catch(() => this.class.isError(`No results for ${this.inputValue}`)));
+    slidesPage.forEach( (slide) => appendContent(slide).catch(() => this.class.isError(`No results for ${this.inputValue}`)));
     this.getMoreMovieInformation();
   }
 
-  static createSlides(slide, posterMovie, titleMovie, yearMovie, videogalleryMovie, rating) {
-    const posterErrorMessage = 'Сервер с данной фотографией временно недоступен';
-    const altPosterMovie = '/src/img/alt_img.png';
-    function isPosterUndefined() {
-      if (posterMovie === 'N/A') {
-        return altPosterMovie;
-      }
-      return posterMovie;
-    }
+  static async createSlides(slide, posterImage, titleMovie, yearMovie, videogalleryMovie, rating) {
+    const posterBlock = document.createElement('div');
+    posterBlock.className = 'slide__poster';
     slide.insertAdjacentHTML('afterbegin', `<div class="slide__title"><a class="slide__title_link" data-id="slideTitle" href="https://www.imdb.com/title/${videogalleryMovie}/videogallery/?ref_=tt_pv_vi_sm">${titleMovie}</a></div>`);
-    slide.insertAdjacentHTML('beforeend', `<div class ="slide__poster"><img class="slide__poster_img" src="${isPosterUndefined()}" alt="${posterErrorMessage}"></div>`);
+    slide.append(posterBlock);
+    posterBlock.append(posterImage);
     slide.insertAdjacentHTML('beforeend', `<div class="slide__year">${yearMovie}</div>`);
     slide.insertAdjacentHTML('beforeend', `<div class="slide__rating">${rating.imdbRating}</div>`);
   }
