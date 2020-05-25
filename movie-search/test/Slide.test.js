@@ -1,16 +1,16 @@
 /* eslint-disable */
-import { describe, it } from '@jest/globals';
+import { describe } from '@jest/globals';
+import Keyboard from '../src/js/components/Keyboard/Keyboard';
+import { createRoot } from '../src/js/components/Keyboard/Keyboard';
 
-const state = require('../src/js/components/Slide/Slide');
+describe('Keyboard: createKeyboard', () => {
+  const keyboard = new Keyboard();
+  keyboard.createKeyboard();
+  createRoot();
 
-describe('isError', () => {
-  it('should return correct text error', () => {
-    expect(state).toBeDefined();
-
-    //type:
-    expect(typeof expected).toBe('string')
-
-    //length:
-    expect(state.length).toBeGreaterThan(4);
-  });
+  test('correct create keyboard', () => {
+    expect(keyboard.createKeyboard).toBeDefined();
+    expect(document.getElementById('keyboardRoot')).not.toBeUndefined();
+    expect(document.getElementById('keyboardRoot')).not.toBeNull();
+  })
 });

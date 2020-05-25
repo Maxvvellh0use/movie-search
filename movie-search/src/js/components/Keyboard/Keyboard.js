@@ -2,7 +2,8 @@ import {
   symbolsEngKeys, symbolRusKeys, correctId,
 } from './symbols';
 
-const createRoot = () => {
+export const createRoot = () => {
+  document.body.insertAdjacentHTML('beforeend', '<div class="keyboard" id="keyboardRoot"></div>');
   const keyboardRoot = document.getElementById('keyboardRoot');
   keyboardRoot.insertAdjacentHTML('afterbegin', '<div id="keyboard" class="keyboard_body hidden"></div>');
 };

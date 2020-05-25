@@ -186,6 +186,7 @@ export default class Slide {
     MORE_INFORMATION_POPUP.insertAdjacentHTML('afterbegin', `<div class="description_preload-wrapper">
                 <div class="lds-ring description_preload" id="description_preload"><div></div><div></div><div></div><div></div></div>
                 </div>`);
+    return MORE_INFORMATION_POPUP;
   }
 
   static createMoreInformationPopup(data) {
@@ -222,6 +223,3 @@ export default class Slide {
   }
 }
 
-module.export = {
-  isError: () => 'Error',
-};
