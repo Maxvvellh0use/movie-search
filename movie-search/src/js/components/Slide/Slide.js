@@ -101,6 +101,7 @@ export default class Slide {
       const yearMovie = data.Search[slideIndex].Year;
       const videogalleryMovie = data.Search[slideIndex].imdbID;
       posterImage.src = posterMovie;
+      posterImage.className = 'slide__poster_img';
       posterImage.addEventListener('load', () => {
         thisSlide.innerHTML = '';
         Slide.createSlides(slide, posterImage, titleMovie, yearMovie, videogalleryMovie, rating);
