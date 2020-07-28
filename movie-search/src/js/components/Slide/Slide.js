@@ -84,7 +84,6 @@ export default class Slide {
   }
 
   async getContent(data) {
-    console.log('fhfgj')
     const slidesPage = SWIPER.querySelectorAll(`div[data-page-index='${this.pageIndex}']`);
     async function appendContent(slide) {
       const thisSlide = slide;
